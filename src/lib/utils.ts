@@ -25,6 +25,9 @@ export const getCurrentUser = async (): Promise<User | null> => {
             {
                 method: "GET",
                 credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                }
             },
         );
 

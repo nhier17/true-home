@@ -1,5 +1,5 @@
 import type { AuthProvider } from "@refinedev/core";
-import type { SignUpPayload, User } from "@/types";
+import type { SignUpPayload } from "@/types";
 import { authClient } from "@/lib/auth-client";
 import { getCurrentUser } from "@/lib/utils";
 
@@ -181,22 +181,7 @@ export const authProvider: AuthProvider = {
     },
 
     getPermissions: async () => {
-        try {
-            const { data, error } = await authClient.getSession();
-
-            if (error || !data?.user) {
-                return null;
-            }
-
-            const user = data.user ;
-
-            return {
-                role: user.role,
-            };
-        } catch (error) {
-            console.error("Get permissions error:", error);
-            return null;
-        }
+        return null;
     },
 
     getIdentity: async () => {

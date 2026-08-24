@@ -287,111 +287,188 @@
   }
 
   .sign-in {
-    @apply flex flex-col items-center justify-center px-6 py-8 min-h-svh;
+    @apply min-h-svh flex items-center justify-center bg-muted/40 px-4 py-10;
+  }
 
-    .logo {
-      @apply flex items-center justify-center;
+  .sign-in-container {
+    @apply flex w-full max-w-md flex-col items-center;
+  }
 
-      img {
-        @apply h-36 w-36;
-      }
+  /* ================================
+     LOGO
+  ================================ */
+
+  .logo {
+    @apply mb-6 flex items-center justify-center;
+  }
+
+  .logo img {
+    @apply h-auto w-auto object-contain;
+    width: 150px;
+    max-height: 72px;
+  }
+
+
+  /* ================================
+     CARD
+  ================================ */
+
+  .card {
+    @apply w-full overflow-hidden border bg-background shadow-sm;
+    border-radius: 12px;
+  }
+
+  .header {
+    @apply px-8 pt-8 pb-5;
+  }
+
+  .title {
+    @apply text-2xl font-semibold tracking-tight;
+  }
+
+  .description {
+    @apply mt-1 text-sm text-muted-foreground;
+  }
+
+
+  /* ================================
+     CONTENT
+  ================================ */
+
+  .content {
+    @apply px-8 pb-7;
+  }
+
+  .form {
+    @apply space-y-5;
+  }
+
+  .field {
+    @apply flex flex-col gap-2;
+  }
+
+  .field [data-slot="label"] {
+    @apply text-sm font-medium;
+  }
+
+  .field [data-slot="input"] {
+    @apply h-11 w-full;
+  }
+
+
+  /* ================================
+     REMEMBER / FORGOT
+  ================================ */
+
+  .row {
+    @apply flex items-center justify-between gap-4;
+  }
+
+  .remember {
+    @apply flex items-center gap-2 space-y-0;
+  }
+
+  .remember [data-slot="label"] {
+    @apply cursor-pointer text-sm font-normal;
+  }
+
+  .forgot-link {
+    @apply flex items-center gap-1.5 text-sm text-primary transition-colors hover:underline;
+  }
+
+  .forgot-link svg {
+    @apply h-4 w-4;
+  }
+
+
+  /* ================================
+     BUTTON
+  ================================ */
+
+  .submit {
+    @apply mt-2 h-11 w-full font-medium;
+  }
+
+
+  /* ================================
+     DIVIDER
+  ================================ */
+
+  .split {
+    @apply flex items-center gap-4 pt-2;
+  }
+
+  .split span {
+    @apply shrink-0 text-xs text-muted-foreground;
+  }
+
+  .split > :first-child,
+  .split > :last-child {
+    @apply flex-1;
+  }
+
+
+  /* ================================
+     FOOTER
+  ================================ */
+
+  .divider {
+    @apply w-full;
+  }
+
+  .footer {
+    @apply flex w-full items-center justify-center gap-1 px-8 py-5;
+  }
+
+  .footer span {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .footer a {
+    @apply text-sm font-semibold text-primary hover:underline;
+  }
+
+
+  /* ================================
+     MOBILE
+  ================================ */
+
+  @media (max-width: 640px) {
+    .sign-in {
+      @apply items-start py-8;
     }
 
-    .card {
-      @apply w-full max-w-xl p-12 mt-6;
+    .sign-in-container {
+      @apply max-w-md;
+    }
+
+    .logo {
+      @apply mb-5;
+    }
+
+    .logo img {
+      width: 130px;
+      max-height: 64px;
     }
 
     .header {
-      @apply px-0;
-    }
-
-    .title {
-      @apply text-3xl font-semibold;
-    }
-
-    .description {
-      @apply text-muted-foreground font-medium;
+      @apply px-6 pt-7;
     }
 
     .content {
-      @apply px-0;
-    }
-
-    .form {
-      @apply space-y-6;
-
-      [data-slot="label"] {
-        @apply text-sm font-medium;
-      }
-
-      [data-slot="input"] {
-        @apply w-full;
-      }
-    }
-
-    .field {
-      @apply flex flex-col gap-2;
-    }
-
-    .row {
-      @apply flex items-center justify-between flex-wrap gap-2;
-    }
-
-    .remember {
-      @apply flex items-center space-x-2;
-    }
-
-    .forgot-link {
-      @apply text-sm flex items-center gap-2 text-primary hover:underline;
-
-      svg {
-        @apply h-4 w-4;
-      }
-    }
-
-    .submit {
-      @apply w-full mt-6;
-    }
-
-    .split {
-      @apply flex items-center gap-4 mt-6;
-
-      span {
-        @apply text-sm text-muted-foreground;
-      }
-
-      > :first-child,
-      > :last-child {
-        @apply flex-1;
-      }
-    }
-
-    .social {
-      @apply flex flex-col gap-4 mt-6;
-
-      p {
-        @apply text-sm font-medium;
-      }
-
-      .social-grid {
-        @apply grid grid-cols-2 gap-6;
-      }
-
-      .social-button {
-        @apply flex items-center gap-2;
-      }
+      @apply px-6 pb-6;
     }
 
     .footer {
-      @apply w-full text-center text-sm space-x-1;
+      @apply px-6;
+    }
 
-      span {
-        @apply text-sm text-muted-foreground;
-      }
+    .row {
+      @apply items-start;
+    }
 
-      a {
-        @apply font-semibold underline;
-      }
+    .forgot-link {
+      @apply text-xs;
     }
   }
 

@@ -1,27 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <title>
-      Manage your properties with ease!
-    </title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <script type="module" src="/src/index.tsx"></script>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+<head>
+  <meta charset="UTF-8" />
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
 
-      To begin the development, run `npm dev` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <!-- Viewport -->
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+  />
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="color-scheme" content="light" />
+
+  <!-- SEO / App information -->
+  <meta
+          name="description"
+          content="TRUEHOME — Simple, powerful property management for landlords and property managers."
+  />
+
+  <meta
+          name="application-name"
+          content="TRUEHOME"
+  />
+
+  <meta
+          name="apple-mobile-web-app-title"
+          content="TRUEHOME"
+  />
+
+  <meta
+          name="apple-mobile-web-app-capable"
+          content="yes"
+  />
+
+  <!-- Browser title -->
+  <title>TRUEHOME — Property Management Made Simple</title>
+
+  <!-- Prevent flash of an unstyled white page -->
+  <style>
+    html,
+    body,
+    #root {
+      margin: 0;
+      min-height: 100%;
+      width: 100%;
+    }
+
+    body {
+      background: #f8fafc;
+    }
+
+    #app-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      transition: opacity 0.25s ease;
+    }
+
+    .loader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .loader-logo {
+      width: 150px;
+      max-width: 60vw;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .loader-spinner {
+      width: 22px;
+      height: 22px;
+      border: 2px solid #d1d5db;
+      border-top-color: #0f766e;
+      border-radius: 50%;
+      animation: truehome-spin 0.8s linear infinite;
+    }
+
+    .loader-text {
+      margin: 0;
+      font-family:
+              Inter,
+              ui-sans-serif,
+              system-ui,
+              -apple-system,
+              BlinkMacSystemFont,
+              "Segoe UI",
+              sans-serif;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    @keyframes truehome-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .loader-spinner {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<noscript>
+  <div
+          style="
+          display: flex;
+          min-height: 100vh;
+          align-items: center;
+          justify-content: center;
+          padding: 24px;
+          font-family: system-ui, sans-serif;
+          text-align: center;
+        "
+  >
+    <div>
+      <h1>TRUEHOME</h1>
+      <p>
+        JavaScript is required to use TRUEHOME.
+        Please enable JavaScript in your browser and reload the page.
+      </p>
+    </div>
+  </div>
+</noscript>
+
+<!-- Initial application loader -->
+<div id="app-loader">
+  <div class="loader-content">
+    <img
+            class="loader-logo"
+            src="/logo.png"
+            alt="TRUEHOME"
+    />
+
+    <div
+            class="loader-spinner"
+            aria-hidden="true"
+    ></div>
+
+    <p class="loader-text">
+      Loading your home...
+    </p>
+  </div>
+</div>
+
+<!-- React application -->
+<div id="root"></div>
+
+<script type="module" src="/src/index.tsx"></script>
+
+<!-- Remove initial loader once React has mounted -->
+<script>
+  window.addEventListener("load", function () {
+    const loader = document.getElementById("app-loader");
+
+    if (!loader) return;
+
+    loader.style.opacity = "0";
+
+    setTimeout(function () {
+      loader.remove();
+    }, 250);
+  });
+</script>
+</body>
 </html>

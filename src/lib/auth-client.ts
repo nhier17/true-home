@@ -1,8 +1,12 @@
 import { createAuthClient } from "better-auth/react";
 import { BACKEND_BASE_URL, USER_ROLES } from "@/constants";
 
+const authBaseURL = BACKEND_BASE_URL.startsWith("/")
+    ? `${window.location.origin}${BACKEND_BASE_URL}`
+    : BACKEND_BASE_URL;
+
 export const authClient = createAuthClient({
-    baseURL: `${BACKEND_BASE_URL}auth`,
+    baseURL: `${authBaseURL}auth`,
     user: {
         additionalFields: {
             role: {
@@ -13,7 +17,7 @@ export const authClient = createAuthClient({
             },
             imageCldPubId: {
                 type: "string",
-                required: false,
+                required: true,
                 input: true,
             },
         },

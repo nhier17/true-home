@@ -29,42 +29,58 @@ import {
 } from "@refinedev/core";
 import { ChevronRight, ListIcon } from "lucide-react";
 import React from "react";
+import {UserInfo} from "@/components/refine-ui/layout/user-info.tsx";
 
 export function Sidebar() {
-  const { open } = useShadcnSidebar();
-  const { menuItems, selectedKey } = useMenu();
+    const { open } = useShadcnSidebar();
+    const { menuItems, selectedKey } = useMenu();
 
-  return (
-    <ShadcnSidebar collapsible="icon" className={cn("border-none")}>
-      <ShadcnSidebarRail />
-      <SidebarHeader />
-      <ShadcnSidebarContent
-        className={cn(
-          "transition-discrete",
-          "duration-200",
-          "flex",
-          "flex-col",
-          "gap-2",
-          "pt-2",
-          "pb-2",
-          "border-r",
-          "border-border",
-          {
-            "px-3": open,
-            "px-1": !open,
-          }
-        )}
-      >
-        {menuItems.map((item: TreeMenuItem) => (
-          <SidebarItem
-            key={item.key || item.name}
-            item={item}
-            selectedKey={selectedKey}
-          />
-        ))}
-      </ShadcnSidebarContent>
-    </ShadcnSidebar>
-  );
+    return (
+        <ShadcnSidebar collapsible="icon" className="border-none">
+            <ShadcnSidebarRail />
+
+            <SidebarHeader />
+
+            <ShadcnSidebarContent
+                className={cn(
+                    "flex",
+                    "flex-1",
+                    "flex-col",
+                    "gap-2",
+                    "overflow-y-auto",
+                    "border-r",
+                    "border-border",
+                    "pt-2",
+                    "pb-2",
+                    "transition-discrete",
+                    "duration-200",
+                    {
+                        "px-3": open,
+                        "px-1": !open,
+                    }
+                )}
+            >
+                {menuItems.map((item: TreeMenuItem) => (
+                    <SidebarItem
+                        key={item.key || item.name}
+                        item={item}
+                        selectedKey={selectedKey}
+                    />
+                ))}
+            </ShadcnSidebarContent>
+
+            <div
+                className={cn(
+                    "border-r",
+                    "border-t",
+                    "border-border",
+                    "p-2"
+                )}
+            >
+                <UserInfo />
+            </div>
+        </ShadcnSidebar>
+    );
 }
 
 type MenuItemProps = {

@@ -184,12 +184,6 @@ export const SignInForm = () => {
                                         : "Sign in"}
                                 </Button>
 
-                                {/* Divider */}
-                                <div className="split">
-                                    <Separator />
-                                    <span>or</span>
-                                    <Separator />
-                                </div>
                             </form>
                         </Form>
                     </CardContent>

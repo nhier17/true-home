@@ -293,7 +293,7 @@
       @apply flex items-center justify-center;
 
       img {
-        @apply h-12 w-12;
+        @apply h-36 w-36;
       }
     }
 

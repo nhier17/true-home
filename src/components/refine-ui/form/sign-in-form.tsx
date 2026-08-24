@@ -60,7 +60,7 @@ export const SignInForm = () => {
   return (
       <div className="sign-in">
         <div className="logo">
-          <img src="/logo.png" alt="Logo" />
+          <img src="/logo.png" alt="Truehome"  />
         </div>
 
         <Card className="card">

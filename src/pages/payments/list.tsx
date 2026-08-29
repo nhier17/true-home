@@ -22,14 +22,7 @@ type Payment = {
 const PaymentList = () => {
     const [searchQuery, setSearchQuery] = useState("");
 
-    const paymnetColumns = useMemo<Payment>[](
-    () => [
-        {
-
-        }
-    ],
-        []
-    );
+    const paymnetColumns = useMemo()
 
     const searchFilters = searchQuery
         ? [

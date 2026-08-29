@@ -6,6 +6,7 @@ import {DataTable} from "@/components/refine-ui/data-table/data-table.tsx";
 import {useTable} from "@refinedev/react-table";
 import {Input} from "@/components/ui/input.tsx";
 import {CreateButton} from "@/components/refine-ui/buttons/create.tsx";
+import {ColumnDef} from "@tanstack/react-table";
 
 type Payment = {
     id: string;
@@ -22,7 +23,11 @@ type Payment = {
 const PaymentList = () => {
     const [searchQuery, setSearchQuery] = useState("");
 
-    const paymnetColumns = useMemo()
+    const paymnetColumns = useMemo<ColumnDef<Payment>[]>(
+    () => [
+    ],
+        []
+    );
 
     const searchFilters = searchQuery
         ? [

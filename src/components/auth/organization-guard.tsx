@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/lib/utils";
+import LoaderSpinner from "@/components/LoaderSpinner.tsx";
 
 type OrganizationGuardProps = {
     requireOrganization: boolean;
@@ -48,7 +49,7 @@ export const OrganizationGuard = ({
     if (loading) {
         return (
             <div className="flex min-h-screen items-center justify-center">
-                Loading...
+                <LoaderSpinner />
             </div>
         );
     }

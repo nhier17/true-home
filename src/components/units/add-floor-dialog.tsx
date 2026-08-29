@@ -51,7 +51,7 @@ const AddFloorDialog = ({ propertyId  }: AddFloorDialogProps) => {
     const [open, setOpen] = useState(false);
     const invalidate = useInvalidate();
 
-    const { mutate } = useCustomMutation<BaseRecord, HttpError, CreateFloorPayload>();
+    const { mutate, mutation: {isPending: isSubmitting} } = useCustomMutation<BaseRecord, HttpError, CreateFloorPayload>();
 
     const { query: blocksQuery } = useList<Block>({
         resource: "blocks",
@@ -230,16 +230,16 @@ const AddFloorDialog = ({ propertyId  }: AddFloorDialogProps) => {
                                 onClick={() =>
                                     handleOpenChange(false)
                                 }
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                             >
                                 Cancel
                             </Button>
 
                             <Button
                                 type="submit"
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                             >
-                                {isLoading ? (
+                                {isLoading || isSubmitting ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         Adding...

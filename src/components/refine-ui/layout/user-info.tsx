@@ -67,7 +67,7 @@ export function UserInfo() {
             {user.name}
           </span>
 
-                    <span className="truncate text-xs text-muted-foreground">
+           <span className="truncate text-xs text-muted-foreground">
             {user.email}
           </span>
                 </div>

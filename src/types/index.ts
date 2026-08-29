@@ -174,4 +174,27 @@ export type Lease = {
 };
 
 
+export type InvoiceType = {
+    id: string;
+    name: string;
+}
+
+export type Invoice = {
+    id: string;
+    invoiceNumber: string;
+    leaseId: string;
+    lease: Lease;
+    invoiceType: InvoiceType;
+    tenant: Tenant;
+    unit: Unit;
+    invoiceDate: string;
+    dueDate: string;
+    amount: number;
+    status: InvoiceStatus;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type InvoiceStatus = | "DRAFT" | "ISSUED" | "PARTIALLY_PAID" | "PAID" | "OVERDUE" | "VOID";
+
 

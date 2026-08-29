@@ -82,7 +82,11 @@ export const MoveOutLeaseDialog = ({
 
     const invalidate =  useInvalidate();
 
-    const { mutate } = useCustomMutation<BaseRecord, HttpError, FormValues>();
+    const {
+
+        mutate,
+        mutation: { isPending: isIssuing },
+    } = useCustomMutation<BaseRecord, HttpError, FormValues>();
 
     const form = useForm<FormValues>({
             resolver: zodResolver(moveOutSchema),
@@ -96,7 +100,6 @@ export const MoveOutLeaseDialog = ({
         handleSubmit,
         reset,
         control,
-        formState: { isLoading },
     } = form;
 
     useEffect(() => {
@@ -275,7 +278,7 @@ export const MoveOutLeaseDialog = ({
                                     type="button"
                                     variant="outline"
                                     onClick={() => setOpen(false)}
-                                    disabled={isLoading}
+                                    disabled={isIssuing}
                                 >
                                     Cancel
                                 </Button>
@@ -283,9 +286,9 @@ export const MoveOutLeaseDialog = ({
                                 <Button
                                     type="submit"
                                     variant="destructive"
-                                    disabled={isLoading}
+                                    disabled={isIssuing}
                                 >
-                                    {isLoading && (
+                                    {isIssuing && (
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     )}
 

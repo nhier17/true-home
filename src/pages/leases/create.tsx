@@ -31,11 +31,11 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { format } from "date-fns";
+import {format, parseISO} from "date-fns";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {Tenant, Unit} from "@/types";
-import {cn} from "@/lib/utils.ts";
+import {cn, getToday} from "@/lib/utils.ts";
 import {leaseSchema} from "@/lib/schema.ts";
 
 
@@ -56,9 +56,9 @@ const LeaseCreate = () => {
             leaseNumber: "",
             tenantId: "",
             unitId: "",
-            startDate: new Date(),
-            endDate: new Date(),
-            moveInDate: new Date(),
+            startDate: getToday(),
+            endDate: getToday(),
+            moveInDate: getToday(),
             monthlyRent: 0,
             securityDeposit: 0,
             rentDueDay: 5,
@@ -256,8 +256,10 @@ const LeaseCreate = () => {
                                                         <PopoverContent className="w-auto p-0" align="start">
                                                             <Calendar
                                                                 mode="single"
-                                                                selected={field.value}
-                                                                onSelect={field.onChange}
+                                                                selected={field.value ? parseISO(field.value) : undefined}
+                                                                onSelect={(date) =>
+                                                                    field.onChange(date ? format(date, "yyyy-MM-dd") : "")
+                                                                }
                                                                 disabled={(date) =>
                                                                     date < new Date("1900-01-01")
                                                                 }
@@ -297,8 +299,10 @@ const LeaseCreate = () => {
                                                         <PopoverContent className="w-auto p-0" align="start">
                                                             <Calendar
                                                                 mode="single"
-                                                                selected={field.value}
-                                                                onSelect={field.onChange}
+                                                                selected={field.value ? parseISO(field.value) : undefined}
+                                                                onSelect={(date) =>
+                                                                    field.onChange(date ? format(date, "yyyy-MM-dd") : "")
+                                                                }
                                                                 disabled={(date) =>
                                                                     date < new Date("1900-01-01")
                                                                 }
@@ -339,8 +343,10 @@ const LeaseCreate = () => {
                                                         <PopoverContent className="w-auto p-0" align="start">
                                                             <Calendar
                                                                 mode="single"
-                                                                selected={field.value ?? undefined}
-                                                                onSelect={field.onChange}
+                                                                selected={field.value ? parseISO(field.value) : undefined}
+                                                                onSelect={(date) =>
+                                                                    field.onChange(date ? format(date, "yyyy-MM-dd") : "")
+                                                                }
                                                                 disabled={(date) =>
                                                                     date < new Date("1900-01-01")
                                                                 }
@@ -458,15 +464,6 @@ const LeaseCreate = () => {
                                 <Separator />
 
                                 <div className="flex gap-4 pt-4">
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        size="lg"
-                                        onClick={() => back()}
-                                        disabled={isSubmitting}                                   >
-                                        Cancel
-                                    </Button>
-
                                     <Button
                                         type="submit"
                                         size="lg"

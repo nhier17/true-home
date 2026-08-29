@@ -51,7 +51,7 @@ const AddUnitDialog = ({ propertyId }: AddUnitDialogProps) => {
     const [open, setOpen] = useState(false);
     const invalidate = useInvalidate();
 
-    const { mutate } = useCustomMutation<BaseRecord, HttpError, CreateUnitPayload>();
+    const { mutate, mutation: { isPending: isSubmitting} } = useCustomMutation<BaseRecord, HttpError, CreateUnitPayload>();
 
     const form = useForm<FormValues>({
         resolver: zodResolver(unitSchema),
@@ -308,16 +308,16 @@ const AddUnitDialog = ({ propertyId }: AddUnitDialogProps) => {
                                 onClick={() =>
                                     setOpen(false)
                                 }
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                             >
                                 Cancel
                             </Button>
 
                             <Button
                                 type="submit"
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                             >
-                                {isLoading ? (
+                                {isLoading || isSubmitting ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         Adding...

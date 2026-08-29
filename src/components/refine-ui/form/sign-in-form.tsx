@@ -50,6 +50,8 @@ export const SignInForm = () => {
         },
     });
 
+    const { control } = form;
+
     const handleSignIn = async (values: SignInFormValues) => {
         login({
             email: values.email,
@@ -61,15 +63,10 @@ export const SignInForm = () => {
         <main className="sign-in">
             <div className="sign-in-container">
 
-                {/* Logo */}
                 <div className="logo">
-                    <img
-                        src="/logo.png"
-                        alt="TRUEHOME"
-                    />
+                    <img src="/logo.png" alt="TRUEHOME" />
                 </div>
 
-                {/* Login Card */}
                 <Card className="card">
                     <CardHeader className="header">
                         <CardTitle className="title">
@@ -87,9 +84,8 @@ export const SignInForm = () => {
                                 onSubmit={form.handleSubmit(handleSignIn)}
                                 className="form"
                             >
-                                {/* Email */}
                                 <FormField
-                                    control={form.control}
+                                    control={control}
                                     name="email"
                                     render={({ field }) => (
                                         <FormItem className="field">
@@ -112,9 +108,8 @@ export const SignInForm = () => {
                                     )}
                                 />
 
-                                {/* Password */}
                                 <FormField
-                                    control={form.control}
+                                    control={control}
                                     name="password"
                                     render={({ field }) => (
                                         <FormItem className="field">
@@ -135,10 +130,9 @@ export const SignInForm = () => {
                                     )}
                                 />
 
-                                {/* Remember / Forgot */}
                                 <div className="row">
                                     <FormField
-                                        control={form.control}
+                                        control={control}
                                         name="rememberMe"
                                         render={({ field }) => (
                                             <FormItem className="remember">
@@ -179,9 +173,7 @@ export const SignInForm = () => {
                                     className="submit"
                                     disabled={isLoggingIn}
                                 >
-                                    {isLoggingIn
-                                        ? "Signing in..."
-                                        : "Sign in"}
+                                    {isLoggingIn ? "Signing in..." : "Sign in"}
                                 </Button>
 
                             </form>

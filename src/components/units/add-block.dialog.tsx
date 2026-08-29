@@ -49,7 +49,7 @@ const AddBlockDialog = ({ propertyId }: AddBlockDialogProps) => {
     const [open, setOpen] = useState(false);
     const invalidate = useInvalidate();
 
-    const { mutate } = useCustomMutation<BaseRecord, HttpError, CreateBlockPayload>();
+    const { mutate, mutation: { isPending: isSubmitting} } = useCustomMutation<BaseRecord, HttpError, CreateBlockPayload>();
 
     const form = useForm<BlockFormValues>({
         resolver: zodResolver(blockSchema),
@@ -156,16 +156,16 @@ const AddBlockDialog = ({ propertyId }: AddBlockDialogProps) => {
                                 onClick={() =>
                                     handleOpenChange(false)
                                 }
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                             >
                                 Cancel
                             </Button>
 
                             <Button
                                 type="submit"
-                                disabled={isLoading}
+                                disabled={isLoading || isSubmitting}
                             >
-                                {isLoading ? (
+                                {isLoading || isSubmitting ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                         Adding...

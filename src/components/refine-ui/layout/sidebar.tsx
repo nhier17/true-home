@@ -36,7 +36,7 @@ export function Sidebar() {
     const { menuItems, selectedKey } = useMenu();
 
     return (
-        <ShadcnSidebar collapsible="icon" className="border-none">
+        <ShadcnSidebar collapsible="icon" className={cn("border-none")}>
             <ShadcnSidebarRail />
 
             <SidebarHeader />

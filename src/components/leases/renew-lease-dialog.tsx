@@ -90,7 +90,7 @@ export const RenewLeaseDialog = ({
 
     const invalidate = useInvalidate();
 
-    const { mutate } = useCustomMutation<BaseRecord, HttpError, FormValues>();
+    const { mutate, mutation: {isPending: isSubmitting} } = useCustomMutation<BaseRecord, HttpError, FormValues>();
 
     const renewalStartDate =  getNextDay(lease.endDate);
 
@@ -276,16 +276,16 @@ export const RenewLeaseDialog = ({
                                     type="button"
                                     variant="outline"
                                     onClick={() => setOpen(false)}
-                                    disabled={isLoading}
+                                    disabled={isSubmitting}
                                 >
                                     Cancel
                                 </Button>
 
                                 <Button
                                     type="submit"
-                                    disabled={isLoading}
+                                    disabled={isSubmitting || isLoading}
                                 >
-                                    {isLoading && (
+                                    {isLoading || isSubmitting && (
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     )}
 

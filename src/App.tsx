@@ -12,7 +12,7 @@ import { Toaster } from "./components/refine-ui/notification/toaster";
 import { useNotificationProvider } from "./components/refine-ui/notification/use-notification-provider";
 import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
 import { dataProvider } from "./providers/data";
-import {Building2, DollarSign, Home, MailCheck, Users, Wrench} from "lucide-react";
+import {Building2, CreditCard, DollarSign, Home, MailCheck, Users, Wrench} from "lucide-react";
 import Dashboard from "@/pages/dashboard.tsx";
 import TenantsList from "@/pages/tenants/list.tsx";
 import TenantsCreate from "@/pages/tenants/create.tsx";
@@ -29,6 +29,11 @@ import PropertyDetails from "@/pages/properties/show.tsx";
 import TenantDetails from "@/pages/tenants/show.tsx";
 import {OrganizationGuard} from "@/components/auth/organization-guard.tsx";
 import Onboarding from "@/pages/onboarding/page.tsx";
+import PaymentList from "@/pages/payments/list.tsx";
+import PaymentCreate from "@/pages/payments/create.tsx";
+import InvoiceList from "@/pages/invoices/list.tsx";
+import InvoiceCreate from "@/pages/invoices/create.tsx";
+import InvoiceDetails from "@/pages/invoices/show.tsx";
 
 function App() {
   return (
@@ -89,6 +94,16 @@ function App() {
                       meta: {
                           label: "Leases",
                           icon: <MailCheck />
+                      }
+                  },
+                  {
+                      name: "invoices",
+                      list: "/invoices",
+                      create: "/invoices/create",
+                      show: "/invoices/show/:id",
+                      meta: {
+                          label: "Invoices",
+                          icon: <CreditCard />
                       }
                   },
                   {
@@ -175,6 +190,17 @@ function App() {
                             <Route index element={<TenantsList />} />
                             <Route path="create" element={<TenantsCreate />} />
                             <Route path="show/:id" element={<TenantDetails />} />
+                        </Route>
+
+                        <Route path="invoices">
+                            <Route index element={<InvoiceList />} />
+                            <Route path="create" element={<InvoiceCreate />} />
+                            <Route path="show/:id" element={<InvoiceDetails />} />
+                        </Route>
+
+                        <Route path="payments">
+                            <Route index element={<PaymentList />} />
+                            <Route path="create" element={<PaymentCreate />} />
                         </Route>
                     </Route>
 

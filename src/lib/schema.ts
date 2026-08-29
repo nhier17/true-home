@@ -47,34 +47,13 @@ export const leaseSchema = z.object({
 
     tenantId: z.string().min(1, "Please select a tenant"),
     unitId: z.string().min(1,"Please select a unit"),
-    startDate: z.coerce.date({required_error: "Start date is required"}),
-    endDate: z.coerce.date({required_error: "End date is required"}),
-    moveInDate: z.coerce.date().nullable().optional(),
+    startDate: z.string().min(1, "Start date is required").regex(/^\d{4}-\d{2}-\d{2}$/,"Invalid start date"),
+    endDate: z.string().min(1, "End date is required").regex(/^\d{4}-\d{2}-\d{2}$/,"Invalid end date"),
+    moveInDate:z.string().min(1, "move-in date is required").regex(/^\d{4}-\d{2}-\d{2}$/,"Invalid move in date").nullable().optional(),
     monthlyRent: z.number().int().positive("Monthly rent must be greater than 0"),
-    securityDeposit: z
-        .number()
-        .int()
-        .nonnegative(
-            "Security deposit cannot be negative",
-        ),
-
-    rentDueDay: z
-        .number()
-        .int()
-        .min(1)
-        .max(
-            31,
-            "Rent due day must be between 1 and 31",
-        ),
-
-    gracePeriodDays: z
-        .number()
-        .int()
-        .min(0)
-        .max(
-            30,
-            "Grace period cannot exceed 30 days",
-        ),
+    securityDeposit: z.number().int().nonnegative("Security deposit cannot be negative"),
+    rentDueDay: z.number().int().min(1).max(31,"Rent due day must be between 1 and 31"),
+    gracePeriodDays: z.number().int().min(0).max(30,"Grace period cannot exceed 30 days"),
 });
 
 //tenants
@@ -95,4 +74,13 @@ export const tenantSchema = z.object({
     nationalId: z.string().optional(),
     nationalIdImg: z.string().optional(),
     imageCldPubId: z.string().optional(),
+});
+
+//invoice
+export const invoiceSchema = z.object({
+    leaseId: z.string().min(1,"Please select a lease"),
+    invoiceTypeId: z.string().min(1,"Please select an invoice type"),invoiceNumber: z .string() .trim() .min(1, "Invoice number is required") .max(50, "Invoice number cannot exceed 50 characters"),
+    invoiceDate: z.string().min(1, "Due date is required").regex(/^\d{4}-\d{2}-\d{2}$/,"Invalid due date"),
+    dueDate: z .string() .min(1, "Due date is required"),
+    amount: z .number({ message: "Invoice amount is required", }) .int("Amount must be a whole number") .positive("Invoice amount must be greater than 0"),
 });

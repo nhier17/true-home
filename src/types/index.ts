@@ -197,4 +197,20 @@ export type Invoice = {
 
 export type InvoiceStatus = | "DRAFT" | "ISSUED" | "PARTIALLY_PAID" | "PAID" | "OVERDUE" | "VOID";
 
+export type Payment = {
+    id: string;
+    invoiceId: string;
+    tenantId: string;
+    amount: number;
+    paymentMethod: "MPESA" | "BANK_TRANSFER" | "CASH" | "CHEQUE";
+    receiptNumber: string;
+    paymentReference: string | null;
+    paidAt: string;
+    notes: string | null;
+    recordedBy: string;
+    invoice: Invoice
+    tenant: Tenant;
+    unit: Unit;
+};
+
 

@@ -184,7 +184,6 @@ const Onboarding = () => {
                                     )}
                                 />
 
-                                {/* County */}
                                 <FormField
                                     control={control}
                                     name="county"

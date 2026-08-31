@@ -80,7 +80,16 @@ export const tenantSchema = z.object({
 export const invoiceSchema = z.object({
     leaseId: z.string().min(1,"Please select a lease"),
     invoiceTypeId: z.string().min(1,"Please select an invoice type"),invoiceNumber: z .string() .trim() .min(1, "Invoice number is required") .max(50, "Invoice number cannot exceed 50 characters"),
-    invoiceDate: z.string().min(1, "Due date is required").regex(/^\d{4}-\d{2}-\d{2}$/,"Invalid due date"),
-    dueDate: z .string() .min(1, "Due date is required"),
+    invoiceDate: z.string().min(1, "Invoice date is required").regex(/^\d{4}-\d{2}-\d{2}$/,"Invalid invoice date"),
+    dueDate: z.string().min(1, "Due date is required").regex(/^\d{4}-\d{2}-\d{2}$/,"Invalid due date"),
     amount: z .number({ message: "Invoice amount is required", }) .int("Amount must be a whole number") .positive("Invoice amount must be greater than 0"),
+});
+
+export const paymentSchema = z.object({
+    invoiceId: z.string().min(1,"Please select an invoice"),
+    receiptNumber: z.string().trim().min(1, "Receipt number is required").max(50, "Receipt number cannot exceed 50 characters"),
+    paymentReference: z.string().trim().max(100,"Payment reference cannot exceed 100 characters").optional(),
+    amount: z.coerce.number().int().positive("Payment amount must be greater than 0"),
+    paymentMethod: z.enum(["MPESA", "BANK_TRANSFER", "CASH", "CHEQUE"]),
+    paidAt: z.date().optional(),
 });

@@ -34,6 +34,7 @@ import PaymentCreate from "@/pages/payments/create.tsx";
 import InvoiceList from "@/pages/invoices/list.tsx";
 import InvoiceCreate from "@/pages/invoices/create.tsx";
 import InvoiceDetails from "@/pages/invoices/show.tsx";
+import PaymentDetails from "@/pages/payments/show.tsx";
 
 function App() {
   return (
@@ -110,6 +111,7 @@ function App() {
                       name: "payments",
                       list: "/payments",
                       create: "/payments/create",
+                      show: "/payments/show/:id",
                       meta: {
                           label: "Payments",
                           icon: <DollarSign />
@@ -201,6 +203,7 @@ function App() {
                         <Route path="payments">
                             <Route index element={<PaymentList />} />
                             <Route path="create" element={<PaymentCreate />} />
+                            <Route path="show/:id" element={<PaymentDetails />} />
                         </Route>
                     </Route>
 

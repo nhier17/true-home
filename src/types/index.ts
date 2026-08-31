@@ -167,6 +167,7 @@ export type Lease = {
     unit: Unit;
     startDate: string;
     endDate: string;
+    moveInDate: string;
     monthlyRent: number;
     status: LeaseStatus;
     createdAt: string;

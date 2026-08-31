@@ -47,9 +47,9 @@ export const leaseSchema = z.object({
 
     tenantId: z.string().min(1, "Please select a tenant"),
     unitId: z.string().min(1,"Please select a unit"),
-    startDate: z.coerce.date({ required_error: "Start date is required"}),
-    endDate: z.coerce.date({ required_error: "End date is required"}),
-    moveInDate:z.coerce.date({ required_error: "Move in date is required"}),
+    startDate: z.string().date(),
+    endDate: z.string().date(),
+    moveInDate:z.string().date(),
     monthlyRent: z.number().int().positive("Monthly rent must be greater than 0"),
     securityDeposit: z.number().int().nonnegative("Security deposit cannot be negative"),
     rentDueDay: z.number().int().min(1).max(31,"Rent due day must be between 1 and 31"),
@@ -80,8 +80,8 @@ export const tenantSchema = z.object({
 export const invoiceSchema = z.object({
     leaseId: z.string().min(1,"Please select a lease"),
     invoiceTypeId: z.string().min(1,"Please select an invoice type"),invoiceNumber: z .string() .trim() .min(1, "Invoice number is required") .max(50, "Invoice number cannot exceed 50 characters"),
-    invoiceDate: z.coerce.date({ required_error: "Invoice date is required"}),
-    dueDate: z.coerce.date({ required_error: "Due date is required"}),
+    invoiceDate: z.string().date(),
+    dueDate: z.string().date(),
     amount: z .number({ message: "Invoice amount is required", }) .int("Amount must be a whole number") .positive("Invoice amount must be greater than 0"),
 });
 
@@ -91,5 +91,5 @@ export const paymentSchema = z.object({
     paymentReference: z.string().trim().max(100,"Payment reference cannot exceed 100 characters").optional(),
     amount: z.coerce.number().int().positive("Payment amount must be greater than 0"),
     paymentMethod: z.enum(["MPESA", "BANK_TRANSFER", "CASH", "CHEQUE"]),
-    paidAt: z.coerce.date().optional(),
+    paidAt: z.string().date().optional(),
 });

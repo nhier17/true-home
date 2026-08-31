@@ -202,7 +202,7 @@ export type Payment = {
     invoiceId: string;
     tenantId: string;
     amount: number;
-    paymentMethod: "MPESA" | "BANK_TRANSFER" | "CASH" | "CHEQUE";
+    paymentMethod: PaymentMethod;
     receiptNumber: string;
     paymentReference: string | null;
     paidAt: string;
@@ -212,5 +212,11 @@ export type Payment = {
     tenant: Tenant;
     unit: Unit;
 };
+
+export type PaymentMethod =
+    | "MPESA"
+    | "BANK_TRANSFER"
+    | "CASH"
+    | "CHEQUE";
 
 

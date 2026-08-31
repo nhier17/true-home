@@ -1,9 +1,6 @@
 import { useParams, useNavigate } from "react-router";
 import { useShow } from "@refinedev/core";
-import {
-    ShowView,
-    ShowViewHeader,
-} from "@/components/refine-ui/views/show-view.tsx";
+import { ShowView, ShowViewHeader } from "@/components/refine-ui/views/show-view.tsx";
 import {
     Card,
     CardContent,
@@ -22,20 +19,9 @@ import {
     User,
     Wallet,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-    formatCurrency,
-    formatDate,
-    formatDateTime,
-} from "@/lib/utils";
-import { Payment } from "@/types";
 
-type PaymentMethod =
-    | "MPESA"
-    | "BANK_TRANSFER"
-    | "CASH"
-    | "CHEQUE";
-
+import { formatCurrency, formatDate, formatDateTime, cn } from "@/lib/utils";
+import { Payment, PaymentMethod } from "@/types";
 
 const paymentMethodLabels: Record<
     PaymentMethod,
@@ -84,17 +70,10 @@ const PaymentDetails = () => {
 
     const payment = query.data?.data;
 
-    if (
-        query.isLoading ||
-        query.isError ||
-        !payment
-    ) {
+    if (query.isLoading || query.isError || !payment ) {
         return (
             <ShowView className="tenant-view">
-                <ShowViewHeader
-                    resource="payments"
-                    title="Payment Details"
-                />
+                <ShowViewHeader resource="payments" title="Payment Details" />
 
                 <p className="text-sm text-muted-foreground">
                     {query.isLoading
@@ -109,10 +88,7 @@ const PaymentDetails = () => {
 
     return (
         <ShowView className="tenant-view space-y-6">
-            <ShowViewHeader
-                resource="payments"
-                title={payment.receiptNumber}
-            />
+            <ShowViewHeader resource="payments" title={payment.receiptNumber} />
 
             <div className="intro-row">
                 <p>
@@ -135,7 +111,6 @@ const PaymentDetails = () => {
             <Separator />
 
             <div className="grid gap-4 md:grid-cols-3">
-                {/* Payment Information */}
                 <Card className="hover:shadow-md transition-shadow">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
@@ -175,22 +150,10 @@ const PaymentDetails = () => {
                             }
                         />
 
-                        <InfoItem
-                            label="Payment Reference"
-                            value={
-                                payment.paymentReference ||
-                                "—"
-                            }
-                        />
+                        <InfoItem  label="Payment Reference" value={payment.paymentReference || "—"} />
 
-                        <InfoItem
-                            label="Paid At"
-                            value={formatDateTime(
-                                payment.paidAt,
-                            )}
-                            icon={
-                                <CalendarDays className="h-4 w-4" />
-                            }
+                        <InfoItem label="Paid At" value={formatDateTime(payment.paidAt)}
+                            icon={<CalendarDays className="h-4 w-4" />}
                         />
 
                         {payment.notes && (
@@ -202,7 +165,6 @@ const PaymentDetails = () => {
                     </CardContent>
                 </Card>
 
-                {/* Invoice Information */}
                 <Card className="hover:shadow-md transition-shadow">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
@@ -220,10 +182,7 @@ const PaymentDetails = () => {
                             </p>
 
                             <p className="font-medium">
-                                {
-                                    payment.invoice
-                                        .invoiceNumber
-                                }
+                                {payment.invoice.invoiceNumber}
                             </p>
                         </div>
 
@@ -233,9 +192,7 @@ const PaymentDetails = () => {
                             </p>
 
                             <p className="text-lg font-semibold">
-                                {formatCurrency(
-                                    payment.invoice.amount,
-                                )}
+                                {formatCurrency(payment.invoice.amount)}
                             </p>
                         </div>
 
@@ -286,7 +243,6 @@ const PaymentDetails = () => {
                     </CardContent>
                 </Card>
 
-                {/* Tenant & Unit */}
                 <Card className="hover:shadow-md transition-shadow">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
@@ -334,8 +290,7 @@ const PaymentDetails = () => {
                 </Card>
             </div>
 
-            {/* Payment vs Invoice Summary */}
-            <Card>
+            <Card className="hover:shadow-md transition-shadow">
                 <CardHeader>
                     <CardTitle>
                         Payment Summary

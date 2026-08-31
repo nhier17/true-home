@@ -56,9 +56,9 @@ const LeaseCreate = () => {
             leaseNumber: "",
             tenantId: "",
             unitId: "",
-            startDate: getToday(),
-            endDate: getToday(),
-            moveInDate: getToday(),
+            startDate: new Date(),
+            endDate: new Date(),
+            moveInDate: new Date(),
             monthlyRent: 0,
             securityDeposit: 0,
             rentDueDay: 5,
@@ -238,32 +238,26 @@ const LeaseCreate = () => {
                                                         <PopoverTrigger asChild>
                                                             <FormControl>
                                                                 <Button
-                                                                    variant={"outline"}
+                                                                    variant="outline"
                                                                     className={cn(
-                                                                        "w-full pl-3 text-left font-normal",
-                                                                        !field.value && "text-muted-foreground"
+                                                                        "w-full text-left",
+                                                                        !field.value &&
+                                                                        "text-muted-foreground"
                                                                     )}
                                                                 >
-                                                                    {field.value ? (
-                                                                        format(field.value, "PPP")
-                                                                    ) : (
-                                                                        <span>Pick a date</span>
-                                                                    )}
-                                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                                    {field.value
+                                                                        ? format(field.value, "PPP")
+                                                                        : "Pick start date"}
+                                                                    <CalendarIcon className="ml-auto h-4 w-4" />
                                                                 </Button>
                                                             </FormControl>
                                                         </PopoverTrigger>
-                                                        <PopoverContent className="w-auto p-0" align="start">
+
+                                                        <PopoverContent className="w-auto p-0">
                                                             <Calendar
                                                                 mode="single"
-                                                                selected={field.value ? parseISO(field.value) : undefined}
-                                                                onSelect={(date) =>
-                                                                    field.onChange(date ? format(date, "yyyy-MM-dd") : "")
-                                                                }
-                                                                disabled={(date) =>
-                                                                    date < new Date("1900-01-01")
-                                                                }
-                                                                initialFocus
+                                                                selected={field.value}
+                                                                onSelect={field.onChange}
                                                             />
                                                         </PopoverContent>
                                                     </Popover>
@@ -281,32 +275,26 @@ const LeaseCreate = () => {
                                                         <PopoverTrigger asChild>
                                                             <FormControl>
                                                                 <Button
-                                                                    variant={"outline"}
+                                                                    variant="outline"
                                                                     className={cn(
-                                                                        "w-full pl-3 text-left font-normal",
-                                                                        !field.value && "text-muted-foreground"
+                                                                        "w-full text-left",
+                                                                        !field.value &&
+                                                                        "text-muted-foreground"
                                                                     )}
                                                                 >
-                                                                    {field.value ? (
-                                                                        format(field.value, "PPP")
-                                                                    ) : (
-                                                                        <span>Pick a date</span>
-                                                                    )}
-                                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                                    {field.value
+                                                                        ? format(field.value, "PPP")
+                                                                        : "Pick start date"}
+                                                                    <CalendarIcon className="ml-auto h-4 w-4" />
                                                                 </Button>
                                                             </FormControl>
                                                         </PopoverTrigger>
-                                                        <PopoverContent className="w-auto p-0" align="start">
+
+                                                        <PopoverContent className="w-auto p-0">
                                                             <Calendar
                                                                 mode="single"
-                                                                selected={field.value ? parseISO(field.value) : undefined}
-                                                                onSelect={(date) =>
-                                                                    field.onChange(date ? format(date, "yyyy-MM-dd") : "")
-                                                                }
-                                                                disabled={(date) =>
-                                                                    date < new Date("1900-01-01")
-                                                                }
-                                                                initialFocus
+                                                                selected={field.value}
+                                                                onSelect={field.onChange}
                                                             />
                                                         </PopoverContent>
                                                     </Popover>
@@ -325,32 +313,26 @@ const LeaseCreate = () => {
                                                         <PopoverTrigger asChild>
                                                             <FormControl>
                                                                 <Button
-                                                                    variant={"outline"}
+                                                                    variant="outline"
                                                                     className={cn(
-                                                                        "w-full pl-3 text-left font-normal",
-                                                                        !field.value && "text-muted-foreground"
+                                                                        "w-full text-left",
+                                                                        !field.value &&
+                                                                        "text-muted-foreground"
                                                                     )}
                                                                 >
-                                                                    {field.value ? (
-                                                                        format(field.value, "PPP")
-                                                                    ) : (
-                                                                        <span>Pick a date</span>
-                                                                    )}
-                                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                                    {field.value
+                                                                        ? format(field.value, "PPP")
+                                                                        : "Pick start date"}
+                                                                    <CalendarIcon className="ml-auto h-4 w-4" />
                                                                 </Button>
                                                             </FormControl>
                                                         </PopoverTrigger>
-                                                        <PopoverContent className="w-auto p-0" align="start">
+
+                                                        <PopoverContent className="w-auto p-0">
                                                             <Calendar
                                                                 mode="single"
-                                                                selected={field.value ? parseISO(field.value) : undefined}
-                                                                onSelect={(date) =>
-                                                                    field.onChange(date ? format(date, "yyyy-MM-dd") : "")
-                                                                }
-                                                                disabled={(date) =>
-                                                                    date < new Date("1900-01-01")
-                                                                }
-                                                                initialFocus
+                                                                selected={field.value}
+                                                                onSelect={field.onChange}
                                                             />
                                                         </PopoverContent>
                                                     </Popover>

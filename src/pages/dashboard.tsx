@@ -79,7 +79,7 @@ const Dashboard = () => {
             description: "Amount still to collect",
         },
     ] as const;
-    
+
     if (isLoading || isError) {
         return (
             <div className="h-[145px] rounded-xl border border-border bg-card p-5">
@@ -118,7 +118,6 @@ const Dashboard = () => {
                                     value={overview?.[kpi.key] ?? 0}
                                     icon={kpi.icon}
                                     accent={kpi.accent}
-                                    isLoading={isLoading}
                                 />
                             ))}
                         </div>

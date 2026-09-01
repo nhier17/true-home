@@ -295,7 +295,7 @@
   }
 
   .logo {
-    @apply mb-6 flex items-center justify-center;
+    @apply flex items-center justify-center;
   }
 
   .logo img {
@@ -306,20 +306,19 @@
 
 
   .card {
-    @apply w-full overflow-hidden shadow-sm;
-    border-radius: 12px;
+    @apply w-full max-w-xl p-12 mt-6;
   }
 
   .header {
-    @apply px-8 pt-8 pb-5;
+    @apply px-0;
   }
 
   .title {
-    @apply text-2xl font-semibold tracking-tight;
+    @apply text-3xl font-semibold;
   }
 
   .description {
-    @apply mt-1 text-sm text-muted-foreground;
+    @apply text-muted-foreground;
   }
 
 
@@ -328,11 +327,11 @@
   }
 
   .form {
-    @apply space-y-5;
+    @apply space-y-6;
   }
 
   .field {
-    @apply flex flex-col gap-2;
+    @apply flex flex-col gap-3;
   }
 
   .field [data-slot="label"] {
@@ -340,17 +339,17 @@
   }
 
   .field [data-slot="input"] {
-    @apply h-11 w-full;
+    @apply w-full;
   }
 
 
 
   .row {
-    @apply flex items-center justify-between gap-4;
+    @apply flex items-center justify-between flex-wrap gap-2;
   }
 
   .remember {
-    @apply flex items-center gap-2 space-y-0;
+    @apply flex items-center space-x-2;
   }
 
   .remember [data-slot="label"] {
@@ -367,12 +366,12 @@
 
 
   .submit {
-    @apply mt-2 h-11 w-full font-medium;
+    @apply w-full mt-6;
   }
 
 
   .split {
-    @apply flex items-center gap-4 pt-2;
+    @apply flex items-center gap-4 mt-6;
   }
 
   .split span {
@@ -390,7 +389,7 @@
   }
 
   .footer {
-    @apply flex w-full items-center justify-center gap-1 px-8 py-5;
+    @apply w-full text-center text-sm space-x-1;
   }
 
   .footer span {

@@ -219,5 +219,74 @@ export type PaymentMethod =
     | "BANK_TRANSFER"
     | "CASH"
     | "CHEQUE";
+export type DashboardOverview = {
+    properties: number;
+    units: number;
+    occupiedUnits: number;
+    vacantUnits: number;
+    tenants: number;
+    activeLeases: number;
+};
+
+export type DashboardFinancial = {
+    totalInvoiced: number;
+    totalCollected: number;
+    outstanding: number;
+};
+
+export type DashboardInvoiceStatuses = {
+    DRAFT: number;
+    ISSUED: number;
+    PARTIALLY_PAID: number;
+    PAID: number;
+    OVERDUE: number;
+    VOID: number;
+};
+
+export type DashboardRecentPayment = {
+    id: string;
+    receiptNumber: string;
+    amount: number;
+    paymentMethod: string;
+    paidAt: string;
+    invoice: {
+        id: string;
+        invoiceNumber: string;
+    };
+    tenant: {
+        id: string;
+        firstName: string;
+        lastName: string;
+    };
+};
+
+export type DashboardExpiringLease = {
+    id: string;
+    leaseNumber: string;
+    endDate: string;
+    monthlyRent: number;
+    tenant: {
+        id: string;
+        firstName: string;
+        lastName: string;
+    };
+    unit: {
+        id: string;
+        unitNumber: string;
+    };
+};
+
+export type DashboardData = {
+    overview: DashboardOverview;
+    financial: DashboardFinancial;
+    invoiceStatuses: DashboardInvoiceStatuses;
+    overdueInvoices: DashboardRecentPayment[];
+    recentPayments: DashboardRecentPayment[];
+    expiringLeases: DashboardExpiringLease[];
+};
+
+export type DashboardResponse = {
+    data: DashboardData;
+};
 
 

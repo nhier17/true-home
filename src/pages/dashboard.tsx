@@ -1,68 +1,152 @@
-import React from 'react'
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {
+    Building2,
+    Home,
+    Users,
+    DoorOpen,
+    FileCheck,
+    Receipt,
+    Wallet,
+    CircleDollarSign,
+} from "lucide-react";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { KpiCard } from "@/components/dashboard/kpi-card";
+import { useDashboard } from "@/components/dashboard/hooks/use-custom.ts";
+import {FinancialCard} from "@/components/dashboard/financial-card.tsx";
 
 const Dashboard = () => {
+    const { overview, isLoading, isError, financial } = useDashboard();
+
     const kpis = [
         {
-            title: "Total Properties",
-            value: "5",
-            subtitle: "21 units",
-            icon: "🏢"
+            title: "Properties",
+            key: "properties",
+            icon: Building2,
+            accent: "text-blue-600",
         },
         {
-            title: "Monthly Revenue",
-            value: "$33,250",
-            subtitle: "~ 100% collection rate",
-            icon: "💰"
+            title: "Units",
+            key: "units",
+            icon: Home,
+            accent: "text-emerald-600",
         },
         {
-            title: "Active Tenants",
-            value: "12",
-            subtitle: "~ 14 units occupied",
-            icon: "👥"
+            title: "Occupied Units",
+            key: "occupiedUnits",
+            icon: DoorOpen,
+            accent: "text-amber-600",
         },
         {
-            title: "Open Maintenance",
-            value: "5",
-            subtitle: "~ $0 pending",
-            icon: "🔧"
-        }
-    ];
+            title: "Vacant Units",
+            key: "vacantUnits",
+            icon: Home,
+            accent: "text-purple-600",
+        },
+        {
+            title: "Tenants",
+            key: "tenants",
+            icon: Users,
+            accent: "text-cyan-600",
+        },
+        {
+            title: "Active Leases",
+            key: "activeLeases",
+            icon: FileCheck,
+            accent: "text-green-600",
+        },
+    ] as const;
+
+    const financialCards = [
+        {
+            title: "Total Invoiced",
+            key: "totalInvoiced",
+            icon: Receipt,
+            accent: "text-blue-600",
+            description: "Total value of invoices",
+        },
+        {
+            title: "Total Collected",
+            key: "totalCollected",
+            icon: Wallet,
+            accent: "text-emerald-600",
+            description: "Payments received",
+        },
+        {
+            title: "Outstanding",
+            key: "outstanding",
+            icon: CircleDollarSign,
+            accent: "text-orange-600",
+            description: "Amount still to collect",
+        },
+    ] as const;
+    
+    if (isLoading || isError) {
+        return (
+            <div className="h-[145px] rounded-xl border border-border bg-card p-5">
+                <div className="flex items-center justify-between">
+                    <div className="h-4 w-28 animate-pulse rounded bg-muted" />
+                    <div className="h-10 w-10 animate-pulse rounded-lg bg-muted" />
+                </div>
+
+                <div className="mt-5 h-8 w-32 animate-pulse rounded bg-muted" />
+
+                <div className="mt-2 h-3 w-24 animate-pulse rounded bg-muted" />
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">
             <div>
                 <h1 className="page-title">Dashboard</h1>
+
                 <p className="text-muted-foreground">
                     Monitor your properties performance and stay on top of operations.
                 </p>
             </div>
+                <Card className="hover:shadow-md transition-shadow">
+                    <CardHeader>
+                        <CardTitle>Overview</CardTitle>
+                    </CardHeader>
 
-            <Card className="hover:shadow-md transition-shadow">
+                    <CardContent>
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+                            {kpis.map((kpi) => (
+                                <KpiCard
+                                    key={kpi.key}
+                                    title={kpi.title}
+                                    value={overview?.[kpi.key] ?? 0}
+                                    icon={kpi.icon}
+                                    accent={kpi.accent}
+                                    isLoading={isLoading}
+                                />
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+
+            <Card>
                 <CardHeader>
-                    <CardTitle>
-                        Overview
-                    </CardTitle>
+                    <CardTitle>Financial Overview</CardTitle>
                 </CardHeader>
+
                 <CardContent>
-                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-                        {kpis.map((kp) => (
-                            <div key={kp.title} className="rounded-lg border border-border bg-muted/20 p-4 hover:border-primary/40 hover:bg-muted/40 transition-colors">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="text-sm font-medium text-muted-foreground">{kp.title}</p>
-                                        <p className="text-2xl font-bold mt-1">{kp.value}</p>
-                                        <p className="text-xs text-muted-foreground mt-1">{kp.subtitle}</p>
-                                    </div>
-                                    <span className="text-2xl">{kp.icon}</span>
-                                </div>
-                            </div>
+                    <div className="grid gap-4 md:grid-cols-3">
+                        {financialCards.map((card) => (
+                            <FinancialCard
+                            key={card.key}
+                            title={card.title}
+                            value={financial?.[card.key] ?? 0}
+                            icon={card.icon}
+                            accent={card.accent}
+                            description={card.description}
+                            />
                         ))}
                     </div>
                 </CardContent>
             </Card>
         </div>
-    )
-}
+    );
+};
 
-export default Dashboard
+export default Dashboard;

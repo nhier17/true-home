@@ -13,9 +13,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { KpiCard } from "@/components/dashboard/kpi-card";
 import { useDashboard } from "@/components/dashboard/hooks/use-custom.ts";
 import {FinancialCard} from "@/components/dashboard/financial-card.tsx";
+import {RevenueTrendChart} from "@/components/dashboard/revenue-trend-chart.tsx";
+import {OccupancyChart} from "@/components/dashboard/occupancy-chart.tsx";
+import {RecentPayments} from "@/components/dashboard/recent-payments.tsx";
+import {OverdueInvoices} from "@/components/dashboard/overdue-invoices.tsx";
 
 const Dashboard = () => {
-    const { overview, isLoading, isError, financial } = useDashboard();
+    const { overview, isLoading, isError, financial, revenueTrend, recentPayments, overdueInvoices } = useDashboard();
 
     const kpis = [
         {
@@ -80,7 +84,7 @@ const Dashboard = () => {
         },
     ] as const;
 
-    if (isLoading || isError) {
+    if (isLoading || isError || !overview || !financial || !revenueTrend || !recentPayments || !overdueInvoices)  {
         return (
             <div className="h-[145px] rounded-xl border border-border bg-card p-5">
                 <div className="flex items-center justify-between">
@@ -124,6 +128,11 @@ const Dashboard = () => {
                     </CardContent>
                 </Card>
 
+            <div className="grid gap-4 lg:grid-cols-2">
+                <RevenueTrendChart data={revenueTrend} />
+                <OccupancyChart occupiedUnits={overview?.occupiedUnits ?? 0} vacantUnits={overview?.vacantUnits ?? 0} />
+            </div>
+
             <Card>
                 <CardHeader>
                     <CardTitle>Financial Overview</CardTitle>
@@ -144,6 +153,11 @@ const Dashboard = () => {
                     </div>
                 </CardContent>
             </Card>
+
+            <div className="grid gap-4 lg:grid-cols-2">
+                <RecentPayments payments={recentPayments} />
+                <OverdueInvoices invoices={overdueInvoices} />
+            </div>
         </div>
     );
 };

@@ -18,9 +18,10 @@ export const useDashboard = () => {
         overview: dashboard?.overview,
         financial: dashboard?.financial,
         invoiceStatuses: dashboard?.invoiceStatuses,
-        overdueInvoices: dashboard?.overdueInvoices,
-        recentPayments: dashboard?.recentPayments,
+        overdueInvoices: dashboard?.overdueInvoices ?? [],
+        recentPayments: dashboard?.recentPayments ?? [],
         expiringLeases: dashboard?.expiringLeases,
+        revenueTrend: dashboard?.revenueTrend ?? [],
         isLoading: dashboardQuery.isLoading,
         isError: dashboardQuery.isError,
     };

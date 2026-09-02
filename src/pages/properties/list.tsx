@@ -137,7 +137,7 @@ const PropertyList = () => {
             <h1 className="page-title">Properties</h1>
 
             <div className="intro-row">
-                <p>Manage your real estate portfolio with blocks, floors, and units.</p>
+                <p>Manage your real estate with blocks, floors and units.</p>
 
                 <div className="actions-row">
                     <div className="search-field">

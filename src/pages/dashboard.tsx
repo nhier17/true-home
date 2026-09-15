@@ -17,9 +17,11 @@ import {RevenueTrendChart} from "@/components/dashboard/revenue-trend-chart.tsx"
 import {OccupancyChart} from "@/components/dashboard/occupancy-chart.tsx";
 import {RecentPayments} from "@/components/dashboard/recent-payments.tsx";
 import {OverdueInvoices} from "@/components/dashboard/overdue-invoices.tsx";
+import {ExpiringLeases} from "@/components/dashboard/expiring-leases.tsx";
+import {QuickActions} from "@/components/dashboard/quick-actions.tsx";
 
 const Dashboard = () => {
-    const { overview, isLoading, isError, financial, revenueTrend, recentPayments, overdueInvoices } = useDashboard();
+    const { overview, isLoading, isError, financial, revenueTrend, recentPayments, overdueInvoices, expiringLeases } = useDashboard();
 
     const kpis = [
         {
@@ -84,7 +86,7 @@ const Dashboard = () => {
         },
     ] as const;
 
-    if (isLoading || isError || !overview || !financial || !revenueTrend || !recentPayments || !overdueInvoices)  {
+    if (isLoading || isError || !overview || !financial || !revenueTrend || !recentPayments || !overdueInvoices || !expiringLeases)  {
         return (
             <div className="h-[145px] rounded-xl border border-border bg-card p-5">
                 <div className="flex items-center justify-between">
@@ -108,6 +110,8 @@ const Dashboard = () => {
                     Monitor your properties performance and stay on top of operations.
                 </p>
             </div>
+            <QuickActions />
+            
                 <Card className="hover:shadow-md transition-shadow">
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>
@@ -157,6 +161,10 @@ const Dashboard = () => {
             <div className="grid gap-4 lg:grid-cols-2">
                 <RecentPayments payments={recentPayments} />
                 <OverdueInvoices invoices={overdueInvoices} />
+            </div>
+
+            <div className="grid gap-4">
+                <ExpiringLeases leases={expiringLeases} />
             </div>
         </div>
     );

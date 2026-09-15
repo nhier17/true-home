@@ -12,7 +12,7 @@ import { Toaster } from "./components/refine-ui/notification/toaster";
 import { useNotificationProvider } from "./components/refine-ui/notification/use-notification-provider";
 import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
 import { dataProvider } from "./providers/data";
-import {Building2, CreditCard, DollarSign, Home, MailCheck, Users, Wrench} from "lucide-react";
+import {Building2, CreditCard, DollarSign, Home, MailCheck, User, Users, Wrench} from "lucide-react";
 import Dashboard from "@/pages/dashboard.tsx";
 import TenantsList from "@/pages/tenants/list.tsx";
 import TenantsCreate from "@/pages/tenants/create.tsx";
@@ -35,6 +35,8 @@ import InvoiceList from "@/pages/invoices/list.tsx";
 import InvoiceCreate from "@/pages/invoices/create.tsx";
 import InvoiceDetails from "@/pages/invoices/show.tsx";
 import PaymentDetails from "@/pages/payments/show.tsx";
+import UsersList from "@/pages/users/list.tsx";
+import UsersCreate from "@/pages/users/create.tsx";
 
 function App() {
   return (
@@ -118,11 +120,12 @@ function App() {
                       }
                   },
                   {
-                      name: "maintenance",
-                      list: "/maintenance",
+                      name: "users",
+                      list: "/users",
+                      create: "/users/create",
                       meta: {
-                          label: "Maintenance",
-                          icon: <Wrench />
+                          label: "Users",
+                          icon: <User />
                       }
                   },
               ]}
@@ -204,6 +207,11 @@ function App() {
                             <Route index element={<PaymentList />} />
                             <Route path="create" element={<PaymentCreate />} />
                             <Route path="show/:id" element={<PaymentDetails />} />
+                        </Route>
+
+                        <Route path="users">
+                            <Route index element={<UsersList />} />
+                            <Route path="create" element={<UsersCreate />} />
                         </Route>
                     </Route>
 

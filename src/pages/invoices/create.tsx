@@ -44,7 +44,6 @@ const InvoiceCreate = () => {
         defaultValues: {
             leaseId: "",
             invoiceTypeId: "",
-            invoiceNumber: "",
             invoiceDate: "",
             dueDate: "",
             amount: 0,
@@ -196,22 +195,6 @@ const InvoiceCreate = () => {
                                                 </SelectContent>
                                             </Select>
                                             <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={control}
-                                    name="invoiceNumber"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Invoice number <span className="text-orange-600">*</span>
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="INV-001" {...field} />
-                                            </FormControl>
-                                            <FormMessage className="text-red-500" />
                                         </FormItem>
                                     )}
                                 />

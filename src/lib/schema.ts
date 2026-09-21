@@ -3,10 +3,6 @@ import { z } from "zod";
 //properties
 export const propertySchema = z.object({
     name: z.string().min(1, "Name is required"),
-    code: z.string().trim().min(1, "Property code is required").max(
-        20,
-        "Property code cannot exceed 20 characters",
-    ),
     propertyType: z.string().min(1, "Property type is required"),
     address: z.string().min(1, "Address is required"),
     county: z.string().optional(),
@@ -36,15 +32,6 @@ export const floorSchema = z.object({
 
 //leases
 export const leaseSchema = z.object({
-    leaseNumber: z
-        .string()
-        .trim()
-        .min(1, "Lease number is required")
-        .max(
-            50,
-            "Lease number cannot exceed 50 characters",
-        ),
-
     tenantId: z.string().min(1, "Please select a tenant"),
     unitId: z.string().min(1,"Please select a unit"),
     startDate: z.string().date(),
@@ -87,7 +74,6 @@ export const invoiceSchema = z.object({
 
 export const paymentSchema = z.object({
     invoiceId: z.string().min(1,"Please select an invoice"),
-    receiptNumber: z.string().trim().min(1, "Receipt number is required").max(50, "Receipt number cannot exceed 50 characters"),
     paymentReference: z.string().trim().max(100,"Payment reference cannot exceed 100 characters").optional(),
     amount: z.coerce.number().int().positive("Payment amount must be greater than 0"),
     paymentMethod: z.enum(["MPESA", "BANK_TRANSFER", "CASH", "CHEQUE"]),

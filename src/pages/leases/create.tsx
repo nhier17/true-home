@@ -53,7 +53,6 @@ const LeaseCreate = () => {
             redirect: "list",
         },
         defaultValues: {
-            leaseNumber: "",
             tenantId: "",
             unitId: "",
             startDate: "",
@@ -127,26 +126,7 @@ const LeaseCreate = () => {
                                             Lease & Parties
                                         </h3>
                                     </div>
-
-                                        <FormField
-                                            control={control}
-                                            name="leaseNumber"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Lease Number</FormLabel>
-
-                                                    <FormControl>
-                                                        <Input
-                                                            placeholder="LEASE-2026-004"
-                                                            {...field}
-                                                        />
-                                                    </FormControl>
-
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-
+                                    
                                         <FormField
                                             control={control}
                                             name="tenantId"

@@ -103,25 +103,6 @@ const PropertyCreate = () => {
 
                                     <FormField
                                         control={control}
-                                        name="code"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Property Code</FormLabel>
-
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="e.g. SUN-001"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={control}
                                         name="propertyType"
                                         render={({ field }) => (
                                             <FormItem>

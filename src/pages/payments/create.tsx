@@ -59,7 +59,6 @@ const PaymentCreate = () => {
 
         defaultValues: {
             invoiceId: "",
-            receiptNumber: "",
             paymentReference: "",
             amount: 0,
             paymentMethod: "MPESA",
@@ -302,31 +301,7 @@ const PaymentCreate = () => {
                                         </CardContent>
                                     </Card>
                                 )}
-
-                                    <FormField
-                                        control={control}
-                                        name="receiptNumber"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Receipt Number{" "}
-                                                    <span className="text-orange-600">
-                                                        *
-                                                    </span>
-                                                </FormLabel>
-
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="e.g. RCPT-001"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
+                                
                                     <FormField
                                         control={control}
                                         name="paymentReference"

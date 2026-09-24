@@ -332,8 +332,15 @@ const InvoiceCreate = () => {
                                             <FormControl>
                                                 <Input
                                                     type="number"
+                                                    value={field.value ?? ""}
                                                     placeholder="Enter amount"
-                                                    {...field}
+                                                    onChange={(e) => {
+                                                        field.onChange(
+                                                            e.target.value === ""
+                                                                ? undefined
+                                                                : Number(e.target.value)
+                                                        );
+                                                    }}
                                                 />
                                             </FormControl>
                                             {selectedInvoiceType?.name?.toLowerCase() === "rent"

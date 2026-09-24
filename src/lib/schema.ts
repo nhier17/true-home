@@ -65,11 +65,16 @@ export const tenantSchema = z.object({
 
 //invoice
 export const invoiceSchema = z.object({
-    leaseId: z.string().min(1,"Please select a lease"),
-    invoiceTypeId: z.string().min(1,"Please select an invoice type"),invoiceNumber: z .string() .trim() .min(1, "Invoice number is required") .max(50, "Invoice number cannot exceed 50 characters"),
+    leaseId: z.string().min(1, "Please select a lease"),
+    invoiceTypeId: z.string().min(1, "Please select an invoice type"),
     invoiceDate: z.string().date(),
     dueDate: z.string().date(),
-    amount: z .number({ message: "Invoice amount is required", }) .int("Amount must be a whole number") .positive("Invoice amount must be greater than 0"),
+    amount: z
+        .number({
+            message: "Invoice amount is required",
+        })
+        .int("Amount must be a whole number")
+        .positive("Invoice amount must be greater than 0"),
 });
 
 export const paymentSchema = z.object({

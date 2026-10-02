@@ -41,7 +41,7 @@ type OnboardingFormValues = z.infer<typeof onboardingSchema>;
 const Onboarding = () => {
     const navigate = useNavigate();
 
-    const { mutate: createOrganization } = useCreate<BaseRecord, HttpError, OnboardingFormValues>();
+    const { mutate: createOrganization, mutation: { isPending: isLoadding }  } = useCreate<BaseRecord, HttpError, OnboardingFormValues>();
 
     const form = useForm<BaseRecord, HttpError, OnboardingFormValues>({
         resolver: zodResolver(onboardingSchema),
@@ -234,9 +234,9 @@ const Onboarding = () => {
                                     type="submit"
                                     className="w-full"
                                     size="lg"
-                                    disabled={isSubmitting}
+                                    disabled={isSubmitting || isLoadding}
                                 >
-                                    {isSubmitting ? (
+                                    {isSubmitting || isLoadding ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                             Registering...

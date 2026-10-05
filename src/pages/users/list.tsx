@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Search, UserPlus } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useTable } from "@refinedev/react-table";
@@ -12,6 +12,14 @@ import { ShowButton } from "@/components/refine-ui/buttons/show";
 import { CreateButton } from "@/components/refine-ui/buttons/create";
 
 import type { User } from "@/types";
+
+const roleLabels: Record<User["role"], string> = {
+    OWNER: "Owner",
+    ADMIN: "Administrator",
+    MANAGER: "Manager",
+    CARETAKER: "Caretaker",
+    ACCOUNTANT: "Accountant",
+};
 
 const UsersList = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -42,7 +50,23 @@ const UsersList = () => {
                 header: "Role",
                 cell: ({ row }) => (
                     <Badge variant="secondary">
-                        {row.original.role}
+                        {roleLabels[row.original.role]}
+                    </Badge>
+                ),
+            },
+            {
+                id: "status",
+                accessorKey: "isActive",
+                header: "Status",
+                cell: ({ row }) => (
+                    <Badge
+                        variant={
+                            row.original.isActive
+                                ? "default"
+                                : "secondary"
+                        }
+                    >
+                        {row.original.isActive ? "Active" : "Inactive"}
                     </Badge>
                 ),
             },
@@ -86,6 +110,7 @@ const UsersList = () => {
 
     const usersTable = useTable<User>({
         columns: userColumns,
+
         refineCoreProps: {
             resource: "users",
 
@@ -125,7 +150,8 @@ const UsersList = () => {
                     </div>
 
                     <CreateButton resource="users">
-                        Add User
+                        <UserPlus className="h-6 w-6" />
+                        Invite User
                     </CreateButton>
                 </div>
             </div>

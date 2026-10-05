@@ -27,10 +27,14 @@ export const getCurrentUser = async (): Promise<User | null> => {
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
-                }
+                },
             },
         );
 
+        // A logged-out user simply has no current application user.
+        if (response.status === 401) {
+            return null;
+        }
 
         if (!response.ok) {
             throw new Error(

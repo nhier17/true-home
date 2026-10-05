@@ -72,7 +72,9 @@ export type User = {
     role: UserRole;
     image?: string;
     imageCldPubId?: string;
-    organizationId?: string;
+    organizationId?: string | null;
+    isActive?: boolean;
+
 };
 
 

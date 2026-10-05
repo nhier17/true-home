@@ -21,11 +21,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
-
-import { ROLE_OPTIONS } from "@/constants";
+;
 import UploadWidget from "@/components/upload-widget";
-import {UserRole} from "@/types";
 import { toast } from "sonner";
 
 const registerSchema = z.object({

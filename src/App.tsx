@@ -12,7 +12,7 @@ import { Toaster } from "./components/refine-ui/notification/toaster";
 import { useNotificationProvider } from "./components/refine-ui/notification/use-notification-provider";
 import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
 import { dataProvider } from "./providers/data";
-import {Building2, CreditCard, DollarSign, Home, MailCheck, User, Users, Wrench} from "lucide-react";
+import {Building2, CreditCard, DollarSign, Home, MailCheck, User, Users} from "lucide-react";
 import Dashboard from "@/pages/dashboard.tsx";
 import TenantsList from "@/pages/tenants/list.tsx";
 import TenantsCreate from "@/pages/tenants/create.tsx";
@@ -36,7 +36,9 @@ import InvoiceCreate from "@/pages/invoices/create.tsx";
 import InvoiceDetails from "@/pages/invoices/show.tsx";
 import PaymentDetails from "@/pages/payments/show.tsx";
 import UsersList from "@/pages/users/list.tsx";
-import UsersCreate from "@/pages/users/create.tsx";
+import UsersInvite from "@/pages/users/create.tsx";
+import AcceptInvitation from "@/pages/auth/accept-invitation.tsx";
+import UserDetails from "@/pages/users/show.tsx";
 
 function App() {
   return (
@@ -123,6 +125,7 @@ function App() {
                       name: "users",
                       list: "/users",
                       create: "/users/create",
+                      show: "/users/show/:id",
                       meta: {
                           label: "Users",
                           icon: <User />
@@ -131,6 +134,11 @@ function App() {
               ]}
             >
                 <Routes>
+                    <Route
+                        path="/accept-invitation"
+                        element={<AcceptInvitation />}
+                    />
+
                     <Route
                         element={
                             <Authenticated
@@ -211,10 +219,10 @@ function App() {
 
                         <Route path="users">
                             <Route index element={<UsersList />} />
-                            <Route path="create" element={<UsersCreate />} />
+                            <Route path="create" element={<UsersInvite />} />
+                            <Route path="show/:id" element={<UserDetails />} />
                         </Route>
                     </Route>
-
                 </Routes>
               <Toaster />
               <RefineKbar />

@@ -324,11 +324,9 @@ const PropertyDetails = () => {
             </Card>
 
             <div className="flex flex-wrap items-center gap-3">
-                <AddUnitDialog propertyId={property.id} />
-
-                <AddBlockDialog propertyId={property.id} />
-
                 <AddFloorDialog propertyId={property.id} />
+                <AddUnitDialog propertyId={property.id} />
+                <AddBlockDialog propertyId={property.id} />
             </div>
 
             <Card className="hover:shadow-md transition-shadow">

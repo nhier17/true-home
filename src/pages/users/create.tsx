@@ -44,13 +44,6 @@ const inviteSchema = z.object({
 
 type InviteFormValues = z.infer<typeof inviteSchema>;
 
-
-const roleLabels: Record<InviteFormValues["role"], string> = {
-    MANAGER: "Manager",
-    CARETAKER: "Caretaker",
-    ACCOUNTANT: "Accountant",
-};
-
 const UsersInvite = () => {
     const back = useBack();
 
@@ -59,6 +52,9 @@ const UsersInvite = () => {
 
     const form = useForm<BaseRecord, HttpError, InviteFormValues>({
         resolver: zodResolver(inviteSchema),
+        refineCoreProps: {
+            redirect: "list"
+        },
         defaultValues: {
             email: "",
             role: "MANAGER",

@@ -20,21 +20,6 @@ const PropertyList = () => {
     const propertyColumns =useMemo<ColumnDef<Property>[]>(
         () => [
             {
-                id: "code",
-                accessorKey: "code",
-                size: 120,
-                header: () => <p className="column-title ml-2">Code</p>,
-                cell: ({ getValue }) => {
-                    const code = getValue<string>();
-
-                    return code ? (
-                        <Badge>{code}</Badge>
-                    ) : (
-                        <span className="text-muted-foreground ml-2">No code</span>
-                    );
-                },
-            },
-            {
                 id: "name",
                 accessorKey: "name",
                 size: 200,

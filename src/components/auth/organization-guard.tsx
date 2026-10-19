@@ -41,7 +41,7 @@ export const OrganizationGuard = ({
                 if (!isMounted) return;
 
                 setHasOrganization(
-                    Boolean(currentUser?.organization?.id),
+                    Boolean(currentUser?.organizationId),
                 );
             } catch (error) {
                 console.error(

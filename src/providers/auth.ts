@@ -92,7 +92,7 @@ export const authProvider: AuthProvider = {
 
             return {
                 success: true,
-                redirectTo: currentUser.organization?.id
+                redirectTo: currentUser.organizationId
                     ? "/"
                     : "/onboarding",
             };

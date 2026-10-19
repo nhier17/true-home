@@ -81,6 +81,7 @@ export type User = {
     role: UserRole;
     image?: string;
     imageCldPubId?: string;
+    organizationId?: string | null;
     organization?: Organization;
     isActive?: boolean;
 

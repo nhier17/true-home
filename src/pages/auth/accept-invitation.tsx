@@ -27,30 +27,10 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import {acceptInvitationSchema} from "@/lib/schema.ts";
 
-const acceptInvitationSchema = z
-    .object({
-        name: z
-            .string()
-            .trim()
-            .min(2, "Name must be at least 2 characters"),
 
-        password: z
-            .string()
-            .min(8, "Password must be at least 8 characters"),
-
-        confirmPassword: z
-            .string()
-            .min(8, "Please confirm your password"),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-    });
-
-type AcceptInvitationFormValues = z.infer<
-    typeof acceptInvitationSchema
->;
+type AcceptInvitationFormValues = z.infer<typeof acceptInvitationSchema>;
 
 type Invitation = {
     id: string;
@@ -224,7 +204,7 @@ const AcceptInvitation = () => {
             
             const currentUser = await getCurrentUser();
 
-            if (!currentUser?.organizationId) {
+            if (!currentUser?.organization?.id) {
                 throw new Error(
                     "Your account was created, but the invitation could not be completed.",
                 );

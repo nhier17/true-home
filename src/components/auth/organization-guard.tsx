@@ -41,7 +41,7 @@ export const OrganizationGuard = ({
                 if (!isMounted) return;
 
                 setHasOrganization(
-                    Boolean(currentUser?.organizationId),
+                    Boolean(currentUser?.organization?.id),
                 );
             } catch (error) {
                 console.error(
@@ -85,8 +85,6 @@ export const OrganizationGuard = ({
         return <Navigate to="/onboarding" replace />;
     }
 
-    // Authenticated and already has an organization,
-    // so don't allow them back into onboarding.
     if (!requireOrganization && hasOrganization) {
         return <Navigate to="/" replace />;
     }

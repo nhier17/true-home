@@ -84,3 +84,23 @@ export const paymentSchema = z.object({
     paymentMethod: z.enum(["MPESA", "BANK_TRANSFER", "CASH", "CHEQUE"]),
     paidAt: z.string().date().optional(),
 });
+
+export const acceptInvitationSchema = z
+    .object({
+        name: z
+            .string()
+            .trim()
+            .min(2, "Name must be at least 2 characters"),
+
+        password: z
+            .string()
+            .min(8, "Password must be at least 8 characters"),
+
+        confirmPassword: z
+            .string()
+            .min(8, "Please confirm your password"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    });

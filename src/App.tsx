@@ -139,19 +139,8 @@ function App() {
                         element={<AcceptInvitation />}
                     />
 
-                    <Route
-                        element={
-                            <Authenticated
-                                key="public-routes"
-                                fallback={<Outlet />}
-                            >
-                                <NavigateToResource fallbackTo="/" />
-                            </Authenticated>
-                        }
-                    >
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                    </Route>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
 
                     <Route
                         element={

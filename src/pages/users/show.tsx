@@ -152,7 +152,7 @@ const UserDetails = () => {
                             </p>
 
                             <p className="mt-1 font-medium">
-                                {user.organizationId ?? "Not assigned"}
+                                {user.organization?.name ?? "Not assigned"}
                             </p>
                         </div>
                     </div>

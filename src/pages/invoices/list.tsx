@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import { AlertCircle, CheckCircle2, CircleDollarSign, Search } from "lucide-react";
 import { useTable } from "@refinedev/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 
@@ -9,44 +9,11 @@ import { DataTable } from "@/components/refine-ui/data-table/data-table";
 import {ShowButton} from "@/components/refine-ui/buttons/show.tsx";
 import {CreateButton} from "@/components/refine-ui/buttons/create.tsx";
 import {Input} from "@/components/ui/input.tsx";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {FinancialCard} from "@/components/dashboard/financial-card.tsx";
+import {useDashboard} from "@/components/dashboard/hooks/use-custom.ts";
+import type {Invoice, InvoiceStatus} from "@/types";
 
-type InvoiceStatus =
-  | "DRAFT"
-  | "ISSUED"
-  | "PARTIALLY_PAID"
-  | "PAID"
-  | "OVERDUE"
-  | "VOID";
-
-type InvoiceType = {
-  id: string;
-  name: string;
-};
-
-type InvoiceTenant = {
-  id: string;
-  firstName: string;
-  lastName: string;
-};
-
-type InvoiceUnit = {
-  id: string;
-  unitNumber: string;
-};
-
-type Invoice = {
-  id: string;
-  invoiceNumber: string;
-  invoiceDate: string;
-  dueDate: string;
-  amount: number;
-  status: InvoiceStatus;
-  description: string | null;
-  notes: string | null;
-  invoiceType: InvoiceType;
-  tenant: InvoiceTenant;
-  unit: InvoiceUnit;
-};
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("en-KE", {
@@ -74,6 +41,39 @@ const getStatusLabel = (status: InvoiceStatus) => {
 
 const InvoiceList = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { financial, overdueInvoices } = useDashboard();
+
+  const totalOverdue = useMemo(
+    () => overdueInvoices.reduce((acc, invoice) => acc + Number(invoice.amount), 0),
+    [overdueInvoices],
+  );
+
+  const invoiceCards = [
+    {
+      title: "Paid",
+      key: "paid",
+      value: financial?.totalCollected ?? 0,
+      icon: CheckCircle2,
+      accent: "text-emerald-600",
+      description: "Payments collected",
+    },
+    {
+      title: "Outstanding",
+      key: "outstanding",
+      value: financial?.outstanding ?? 0,
+      icon: CircleDollarSign,
+      accent: "text-orange-600",
+      description: "Amount still to collect",
+    },
+    {
+      title: "Overdue",
+      key: "overdue",
+      value: totalOverdue,
+      icon: AlertCircle,
+      accent: "text-red-600",
+      description: "Past due date amount",
+    },
+  ] as const;
 
   const invoiceColumns = useMemo<ColumnDef<Invoice>[]>(
     () => [
@@ -230,6 +230,26 @@ const InvoiceList = () => {
                   <CreateButton resource="invoices" name="Create Invoice">Create Invoice</CreateButton>
               </div>
           </div>
+
+          <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                  <CardTitle>Invoice Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                  <div className="grid gap-4 md:grid-cols-3">
+                      {invoiceCards.map((card) => (
+                          <FinancialCard
+                              key={card.key}
+                              title={card.title}
+                              value={card.value}
+                              icon={card.icon}
+                              accent={card.accent}
+                              description={card.description}
+                          />
+                      ))}
+                  </div>
+              </CardContent>
+          </Card>
 
           <DataTable table={invoiceTable} />
       </ListView>

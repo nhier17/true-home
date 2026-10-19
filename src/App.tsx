@@ -39,8 +39,17 @@ import UsersList from "@/pages/users/list.tsx";
 import UsersInvite from "@/pages/users/create.tsx";
 import AcceptInvitation from "@/pages/auth/accept-invitation.tsx";
 import UserDetails from "@/pages/users/show.tsx";
+import {useEffect} from "react";
 
 function App() {
+    useEffect(() => {
+        const loader = document.getElementById("app-loader");
+
+        if (loader) {
+            loader.remove();
+        }
+    }, []);
+
   return (
     <BrowserRouter>
       <RefineKbarProvider>

@@ -63,6 +63,15 @@ export enum UserRole {
     ADMIN = "ADMIN",
 }
 
+export type Organization = {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    createdAt: string;
+    updatedAt: string;
+};
+
 export type User = {
     id: string;
     createdAt: string;
@@ -72,7 +81,7 @@ export type User = {
     role: UserRole;
     image?: string;
     imageCldPubId?: string;
-    organizationId?: string | null;
+    organization?: Organization;
     isActive?: boolean;
 
 };

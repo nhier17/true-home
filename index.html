@@ -167,17 +167,7 @@
 
 <!-- Remove initial loader once React has mounted -->
 <script>
-  window.addEventListener("load", function () {
-    const loader = document.getElementById("app-loader");
 
-    if (!loader) return;
-
-    loader.style.opacity = "0";
-
-    setTimeout(function () {
-      loader.remove();
-    }, 250);
-  });
 </script>
 </body>
 </html>

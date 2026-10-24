@@ -4,7 +4,7 @@ import { useTable } from "@refinedev/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { ListView } from "@/components/refine-ui/views/list-view";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
 import { DataTable } from "@/components/refine-ui/data-table/data-table";
 import {ShowButton} from "@/components/refine-ui/buttons/show.tsx";
 import {CreateButton} from "@/components/refine-ui/buttons/create.tsx";

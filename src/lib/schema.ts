@@ -25,9 +25,12 @@ export const floorSchema = z.object({
         .trim()
         .min(1, "Floor name is required")
         .max(255, "Floor name is too long"),
-    level: z.coerce
-        .number()
-        .int("Level must be an integer"),
+    level: z.coerce.number().int("Level must be an integer"),
+});
+
+//blocks
+export const blockSchema = z.object({
+    name: z.string().trim().min(1, "Block name is required").max(255, "Block name is too long"),
 });
 
 //leases
@@ -53,10 +56,16 @@ export const tenantSchema = z.object({
         .min(10)
         .regex(/^(0|\+254|254)/, "Invalid Kenyan phone format"),
     email: z.string().email("Email is required."),
-    emergencyContact:  z
+    emergencyContactName: z
+        .string()
+        .trim()
+        .max(255, "Emergency contact name must not exceed 255 characters")
+        .optional(),
+    emergencyContactPhone: z
         .string()
         .min(10)
-        .regex(/^(0|\+254|254)/, "Invalid Kenyan phone format"),
+        .regex(/^(0|\+254|254)/, "Invalid Kenyan phone format")
+        .optional(),
     occupation: z.string().optional(),
     nationalId: z.string().optional(),
     nationalIdImg: z.string().optional(),

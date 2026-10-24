@@ -110,15 +110,19 @@ export type Property = {
 }
 
 export type Block = {
+    propertyId: string;
     id: string;
     name: string;
 };
 
 export type Floor = {
     id: string;
+    propertyId: string;
     name: string;
     level: number;
-}
+    blockId?: string | null;
+    blockName?: string | null;
+};
 
 export type UnitType = {
     id: string;
@@ -152,7 +156,12 @@ export type Unit = {
     propertyName: string;
     unitTypeId: string;
     unitTypeName: string;
-}
+    blockId?: string | null;
+    blockName?: string | null;
+    floorId?: string | null;
+    floorName?: string | null;
+    defaultRent: number;
+};
 
 //tenant
 export type Tenant = {

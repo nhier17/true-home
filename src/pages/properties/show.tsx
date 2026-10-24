@@ -11,6 +11,9 @@ import AddUnitDialog from "@/components/units/add-unit-dialog";
 import AddBlockDialog from "@/components/units/add-block.dialog.tsx";
 import AddFloorDialog from "@/components/units/add-floor-dialog.tsx";
 import type { Property, Block, Floor, Unit } from "@/types";
+import { EditUnitDialog } from "@/components/units/edit-unit-dialog.tsx";
+import EditBlockDialog from "@/components/units/edit-block-dialog.tsx";
+import EditFloorDialog from "@/components/units/edit-floor-dialog.tsx";
 
 
 const PropertyDetails = () => {
@@ -88,6 +91,13 @@ const PropertyDetails = () => {
                     </span>
                 ),
             },
+            {
+                id: "actions",
+                header: () => <p className="column-title">Actions</p>,
+                cell: ({ row }) => (
+                    <EditUnitDialog unit={row.original} />
+                ),
+            },
         ],
         [],
     );
@@ -122,6 +132,27 @@ const PropertyDetails = () => {
                     </Badge>
                 ),
             },
+            {
+                id: "block",
+                accessorKey: "blockName",
+                header: () => (
+                    <p className="column-title">
+                        Block
+                    </p>
+                ),
+                cell: ({ getValue }) => (
+                    <span>
+                        {getValue<string>() || "—"}
+                    </span>
+                ),
+            },
+            {
+                id: "actions",
+                header: () => <p className="column-title">Actions</p>,
+                cell: ({ row }) => (
+                    <EditFloorDialog floor={row.original} />
+                ),
+            },
         ],
         [],
     );
@@ -141,6 +172,13 @@ const PropertyDetails = () => {
                     <span className="font-medium">
                         {getValue<string>()}
                     </span>
+                ),
+            },
+            {
+                id: "actions",
+                header: () => <p className="column-title">Actions</p>,
+                cell: ({ row }) => (
+                    <EditBlockDialog block={row.original} />
                 ),
             },
         ],
@@ -206,7 +244,7 @@ const PropertyDetails = () => {
             },
         },
     });
-
+    
     const blockTable = useTable<Block>({
         columns: blockColumns,
         refineCoreProps: {

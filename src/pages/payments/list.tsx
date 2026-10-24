@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { ListView } from "@/components/refine-ui/views/list-view.tsx";
-import { Breadcrumb } from "@/components/ui/breadcrumb.tsx";
+import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
 import {CircleDollarSign, Receipt, Search, Wallet} from "lucide-react";
 import { DataTable } from "@/components/refine-ui/data-table/data-table.tsx";
 import { useTable } from "@refinedev/react-table";

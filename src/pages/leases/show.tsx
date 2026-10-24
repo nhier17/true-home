@@ -15,7 +15,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { ShowView } from "@/components/refine-ui/views/show-view";
+import {ShowView, ShowViewHeader} from "@/components/refine-ui/views/show-view";
 import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
 import {RenewLeaseDialog} from "@/components/leases/renew-lease-dialog.tsx";
 import {MoveOutLeaseDialog} from "@/components/leases/move-out-dialog.tsx";
@@ -144,7 +144,7 @@ const LeaseShow = () => {
 
     return (
         <ShowView>
-            <Breadcrumb />
+            <ShowViewHeader  />
 
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>

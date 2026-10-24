@@ -1,5 +1,5 @@
 import {ListView} from "@/components/refine-ui/views/list-view.tsx";
-import {Breadcrumb} from "@/components/ui/breadcrumb.tsx";
+import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
 import {Search} from "lucide-react";
 import {Input} from "@/components/ui/input.tsx";
 

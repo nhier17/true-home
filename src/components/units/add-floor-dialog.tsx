@@ -55,7 +55,16 @@ const AddFloorDialog = ({ propertyId  }: AddFloorDialogProps) => {
 
     const { query: blocksQuery } = useList<Block>({
         resource: "blocks",
-        pagination: { mode: "off" }
+        pagination: {
+            mode: "off",
+        },
+        filters: [
+            {
+                field: "propertyId",
+                operator: "eq",
+                value: propertyId,
+            },
+        ],
     });
 
     const blocks = blocksQuery.data?.data ?? [];
@@ -204,7 +213,7 @@ const AddFloorDialog = ({ propertyId  }: AddFloorDialogProps) => {
                                         disabled={isLoadingBlocks}
                                     >
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger className="w-full">
                                                 <SelectValue placeholder="Select block" />
                                             </SelectTrigger>
                                         </FormControl>

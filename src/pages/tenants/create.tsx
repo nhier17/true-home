@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "@refinedev/react-hook-form";
-import {useBack, useList, type BaseRecord, type HttpError} from "@refinedev/core";
+import {useBack, type BaseRecord, type HttpError} from "@refinedev/core";
 import * as z from "zod";
 import {
     Loader2,
@@ -33,7 +33,6 @@ import {
 import UploadWidget from "@/components/upload-widget.tsx";
 import {tenantSchema} from "@/lib/schema.ts";
 
-
 type TenantFormValues = z.infer<typeof tenantSchema>;
 
 const TenantsCreate = () => {
@@ -52,7 +51,7 @@ const TenantsCreate = () => {
             gender: "MALE",
             phone: "",
             email: "",
-            emergencyContact: "",
+            emergencyContactPhone: "",
             occupation: "",
             nationalId: "",
             nationalIdImg: "",
@@ -63,9 +62,11 @@ const TenantsCreate = () => {
     const {
         refineCore: {onFinish},
         handleSubmit,
-        formState: { isSubmitting },
+        formState: { isSubmitting, errors },
         control,
     } = form;
+
+    const imagePublicId = form.watch("imageCldPubId");
 
     const onSubmit = async (values: TenantFormValues) => {
         try {
@@ -75,7 +76,6 @@ const TenantsCreate = () => {
         }
     };
 
-    const imagePublicId = form.watch("imageCldPubId");
 
     return (
         <CreateView className="tenant-view">
@@ -218,7 +218,7 @@ const TenantsCreate = () => {
 
                                 <FormField
                                     control={control}
-                                    name="emergencyContact"
+                                    name="emergencyContactPhone"
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>
@@ -317,6 +317,11 @@ const TenantsCreate = () => {
                                                 />
                                             </FormControl>
                                             <FormMessage className="text-red-500" />
+                                            {errors.imageCldPubId && !errors.nationalIdImg && (
+                                                <p className="text-destructive text-sm">
+                                                    {errors.imageCldPubId.message?.toString()}
+                                                </p>
+                                            )}
                                         </FormItem>
                                     )}
                                 />

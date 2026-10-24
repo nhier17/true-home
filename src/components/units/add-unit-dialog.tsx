@@ -82,6 +82,13 @@ const AddUnitDialog = ({ propertyId }: AddUnitDialogProps) => {
         pagination: {
             mode: "off",
         },
+        filters: [
+            {
+                field: "propertyId",
+                operator: "eq",
+                value: propertyId,
+            },
+        ],
     });
 
     const { query: floorQuery } = useList<Floor>({
@@ -89,6 +96,13 @@ const AddUnitDialog = ({ propertyId }: AddUnitDialogProps) => {
         pagination: {
             mode: "off",
         },
+        filters: [
+            {
+                field: "propertyId",
+                operator: "eq",
+                value: propertyId,
+            },
+        ],
     });
 
     const unitTypes = unitTypesQuery?.data?.data || [];

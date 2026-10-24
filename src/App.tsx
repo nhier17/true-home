@@ -40,6 +40,10 @@ import UsersInvite from "@/pages/users/create.tsx";
 import AcceptInvitation from "@/pages/auth/accept-invitation.tsx";
 import UserDetails from "@/pages/users/show.tsx";
 import {useEffect} from "react";
+import PropertyEdit from "@/pages/properties/edit.tsx";
+import TenantEdit from "@/pages/tenants/edit.tsx";
+import LeaseEdit from "@/pages/leases/edit.tsx";
+import InvoiceEdit from "@/pages/invoices/edit.tsx";
 
 function App() {
     useEffect(() => {
@@ -115,6 +119,7 @@ function App() {
                       list: "/invoices",
                       create: "/invoices/create",
                       show: "/invoices/show/:id",
+                      edit: "/invoices/edit/:id",
                       meta: {
                           label: "Invoices",
                           icon: <CreditCard />
@@ -189,24 +194,28 @@ function App() {
                             <Route index element={<PropertyList />} />
                             <Route path="create" element={<PropertyCreate />} />
                             <Route path="show/:id" element={<PropertyDetails />} />
+                            <Route path="edit/:id" element={<PropertyEdit />} />
                         </Route>
 
                         <Route path="leases">
                             <Route index element={<LeasesList />} />
                             <Route path="create" element={<LeaseCreate />} />
                             <Route path="show/:id" element={<LeaseShow />} />
+                            <Route path="edit/:id" element={<LeaseEdit />} />
                         </Route>
 
                         <Route path="tenants">
                             <Route index element={<TenantsList />} />
                             <Route path="create" element={<TenantsCreate />} />
                             <Route path="show/:id" element={<TenantDetails />} />
+                            <Route path="edit/:id" element={<TenantEdit />} />
                         </Route>
 
                         <Route path="invoices">
                             <Route index element={<InvoiceList />} />
                             <Route path="create" element={<InvoiceCreate />} />
                             <Route path="show/:id" element={<InvoiceDetails />} />
+                            <Route path="edit/:id" element={<InvoiceEdit />} />
                         </Route>
 
                         <Route path="payments">

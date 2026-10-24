@@ -68,7 +68,7 @@ const AddBlockDialog = ({ propertyId }: AddBlockDialogProps) => {
     const onSubmit = (values: BlockFormValues) => {
         mutate(
             {
-                url: `${BACKEND_BASE_URL}/blocks`,
+                url: `${BACKEND_BASE_URL}blocks`,
                 method: "post",
                 config: {
                     headers: {

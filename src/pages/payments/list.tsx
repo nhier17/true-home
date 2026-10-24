@@ -108,7 +108,6 @@ const PaymentList = () => {
             },
             {
                 id: "details",
-                size: 140,
                 header: () => <p className="column-title">Details</p>,
                 cell: ({ row }) => (
                     <ShowButton

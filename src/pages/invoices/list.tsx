@@ -155,21 +155,15 @@ const InvoiceList = () => {
         },
       },
         {
-            id: "actions",
-            header: () => (
-                <p className="column-title text-right">
-                    Actions
-                </p>
-            ),
+            id: "details",
+            header: () => <p className="column-title">Details</p>,
             cell: ({ row }) => (
-                <div className="flex justify-end">
                     <ShowButton
                         resource="invoices"
-                        recordItemId={
-                            row.original.id
-                        }
+                        recordItemId={row.original.id}
+                        variant="outline"
+                        size="sm"
                     />
-                </div>
             ),
         },
     ],

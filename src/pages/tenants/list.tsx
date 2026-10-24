@@ -21,7 +21,6 @@ const TenantsList = () => {
             {
                 id: "name",
                 header: () => <p className="column-title">Full Name</p>,
-                size: 200,
                 cell: ({ row }) => {
                     const { firstName, lastName } = row.original;
 
@@ -36,7 +35,6 @@ const TenantsList = () => {
             {
                 id: "phone",
                 accessorKey: "phone",
-                size: 200,
                 header: () => <p className="column-title">Phone</p>,
                 cell: ({ getValue }) => (
                     <span className="text-base text-foreground">{getValue<string>()}</span>
@@ -45,7 +43,6 @@ const TenantsList = () => {
             {
                 id: "gender",
                 accessorKey: "gender",
-                size: 100,
                 header: () => <p className="column-title">Gender</p>,
                 cell: ({ getValue }) => (
                     <span className="text-base text-foreground">{getValue<string>()}</span>
@@ -54,33 +51,21 @@ const TenantsList = () => {
             {
                 id: "email",
                 accessorKey: "email",
-                size: 100,
                 header: () => <p className="column-title">Email</p>,
                 cell: ({ getValue }) => (
                     <span className="text-base text-foreground">{getValue<string>()}</span>
                 ),
             },
             {
-                id: "status",
-                accessorKey: "status",
-                size: 100,
-                header: () => <p className="column-title">Status</p>,
-                cell: ({ getValue }) => {
-                    const status = getValue<string>();
-
-                    const variant =
-                        status === "active"
-                            ? "default"
-                            : status === "expired"
-                                ? "destructive"
-                                : "secondary";
-
-                    return <Badge variant={variant}>{status}</Badge>;
-                },
+                id: "nationalId",
+                accessorKey: "nationalId",
+                header: () => <p className="column-title">National ID</p>,
+                cell: ({ getValue }) => (
+                    <span className="text-base text-foreground">{getValue<string>()}</span>
+                ),
             },
             {
                 id: "details",
-                size: 140,
                 header: () => <p className="column-title">Details</p>,
                 cell: ({ row }) => (
                     <ShowButton

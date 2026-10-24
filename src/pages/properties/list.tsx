@@ -22,7 +22,6 @@ const PropertyList = () => {
             {
                 id: "name",
                 accessorKey: "name",
-                size: 200,
                 header: () => <p className="column-title">Name</p>,
                 cell: ({ getValue }) => (
                     <span className="text-foreground">{getValue<string>()}</span>
@@ -32,7 +31,6 @@ const PropertyList = () => {
             {
                 id: "propertyType",
                 accessorKey: "propertyType",
-                size: 200,
                 header: () => <p className="column-title">Type</p>,
                 cell: ({ getValue }) => (
                     <span className="text-foreground">{formatPropertyType(getValue<string>())}</span>
@@ -51,7 +49,6 @@ const PropertyList = () => {
             {
                 id: "status",
                 accessorKey: "status",
-                size: 120,
                 header: () => (
                     <p className="column-title">Status</p>
                 ),
@@ -67,7 +64,6 @@ const PropertyList = () => {
             },
             {
                 id: "details",
-                size: 140,
                 header: () => <p className="column-title">Details</p>,
                 cell: ({ row }) => (
                     <ShowButton

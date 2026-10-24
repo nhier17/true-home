@@ -101,6 +101,39 @@ const TenantDetails = () => {
                     </div>
                 </CardContent>
             </Card>
+
+            <Card className="hover:shadow-md transition-shadow">
+                <CardHeader>
+                    <CardTitle className="text-lg">
+                        ID / Passport Document
+                    </CardTitle>
+                </CardHeader>
+
+                <CardContent>
+                    {tenant.nationalIdImg ? (
+                        <a
+                            href={tenant.nationalIdImg}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block"
+                        >
+                            <img
+                                src={tenant.nationalIdImg}
+                                alt={`${fullName}'s ID or passport`}
+                                className="max-h-96 w-auto max-w-full rounded-lg border object-contain"
+                                loading="lazy"
+                            />
+                            <p className="mt-2 text-sm text-muted-foreground">
+                                Click the image to view it in full size.
+                            </p>
+                        </a>
+                    ) : (
+                        <p className="text-sm text-muted-foreground">
+                            No ID or passport image has been uploaded.
+                        </p>
+                    )}
+                </CardContent>
+            </Card>
         </ShowView>
     );
 };
@@ -119,18 +152,5 @@ const DetailItem = ({ label, value }: DetailItemProps) => (
     </div>
 );
 
-const formatDate = (value?: string | Date | null) => {
-    if (!value) return "—";
-
-    const date = new Date(value);
-
-    if (Number.isNaN(date.getTime())) return "—";
-
-    return new Intl.DateTimeFormat("en-KE", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-    }).format(date);
-};
 
 export default TenantDetails;

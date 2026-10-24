@@ -94,12 +94,6 @@ const InvoiceDetails = () => {
                     {details.status === "DRAFT" && (
                         <>
                             <Button
-                                variant="outline"
-                            >
-                                Edit
-                            </Button>
-
-                            <Button
                                 onClick={handleIssueInvoice}
                                 disabled={isIssuing}
                             >

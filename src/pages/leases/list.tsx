@@ -38,7 +38,6 @@ const LeasesList = () => {
             {
                 id: "leaseNumber",
                 accessorKey: "leaseNumber",
-                size: 150,
                 header: () => (
                     <p className="column-title ml-2">
                         Lease
@@ -163,21 +162,15 @@ const LeasesList = () => {
             },
 
             {
-                id: "actions",
-                header: () => (
-                    <p className="column-title text-right">
-                        Actions
-                    </p>
-                ),
+                id: "details",
+                header: () => <p className="column-title">Details</p>,
                 cell: ({ row }) => (
-                    <div className="flex justify-end">
                         <ShowButton
                             resource="leases"
-                            recordItemId={
-                                row.original.id
-                            }
+                            recordItemId={row.original.id}
+                            variant="outline"
+                            size="sm"
                         />
-                    </div>
                 ),
             },
         ],

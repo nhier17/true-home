@@ -67,9 +67,7 @@ function App() {
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
-                  title: {
-                    text: "Truehome"
-                  },
+                  breadcrumb: false,
                 projectId: "3VqtHd-grghdy-MQFWi7",
               }}
               resources={[

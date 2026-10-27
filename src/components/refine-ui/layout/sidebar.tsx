@@ -24,7 +24,6 @@ import { cn } from "@/lib/utils";
 import {
   useLink,
   useMenu,
-  useRefineOptions,
   type TreeMenuItem,
 } from "@refinedev/core";
 import { ChevronRight, ListIcon } from "lucide-react";
@@ -184,109 +183,116 @@ function SidebarItemCollapsible({ item, selectedKey }: MenuItemProps) {
 }
 
 function SidebarItemDropdown({ item, selectedKey }: MenuItemProps) {
-  const { children } = item;
-  const Link = useLink();
+    const { children } = item;
+    const Link = useLink();
+    const { isMobile, setOpenMobile } = useShadcnSidebar();
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <SidebarButton item={item} />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent side="right" align="start">
-        {children?.map((child: TreeMenuItem) => {
-          const { key: childKey } = child;
-          const isSelected = childKey === selectedKey;
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <SidebarButton item={item} />
+            </DropdownMenuTrigger>
 
-          return (
-            <DropdownMenuItem key={childKey || child.name} asChild>
-              <Link
-                to={child.route || ""}
-                className={cn("flex w-full items-center gap-2", {
-                  "bg-accent text-accent-foreground": isSelected,
+            <DropdownMenuContent side="right" align="start">
+                {children?.map((child: TreeMenuItem) => {
+                    const childKey = child.key;
+                    const isSelected = childKey === selectedKey;
+
+                    return (
+                        <DropdownMenuItem key={childKey || child.name} asChild>
+                            <Link
+                                to={child.route || ""}
+                                onClick={() => {
+                                    if (isMobile) {
+                                        setOpenMobile(false);
+                                    }
+                                }}
+                                className={cn("flex w-full items-center gap-2", {
+                                    "bg-accent text-accent-foreground": isSelected,
+                                })}
+                            >
+                                <ItemIcon
+                                    icon={child.meta?.icon ?? child.icon}
+                                    isSelected={isSelected}
+                                />
+                                <span>{getDisplayName(child)}</span>
+                            </Link>
+                        </DropdownMenuItem>
+                    );
                 })}
-              >
-                <ItemIcon
-                  icon={child.meta?.icon ?? child.icon}
-                  isSelected={isSelected}
-                />
-                <span>{getDisplayName(child)}</span>
-              </Link>
-            </DropdownMenuItem>
-          );
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
 }
 
 function SidebarItemLink({ item, selectedKey }: MenuItemProps) {
-  const isSelected = item.key === selectedKey;
+    const isSelected = item.key === selectedKey;
+    const { isMobile, setOpenMobile } = useShadcnSidebar();
 
-  return <SidebarButton item={item} isSelected={isSelected} asLink={true} />;
+    return (
+        <SidebarButton
+            item={item}
+            isSelected={isSelected}
+            asLink={true}
+            onClick={() => {
+                if (isMobile) {
+                    setOpenMobile(false);
+                }
+            }}
+        />
+    );
 }
 
 function SidebarHeader() {
-  const { title } = useRefineOptions();
-  const { open, isMobile } = useShadcnSidebar();
+    const { open, isMobile } = useShadcnSidebar();
 
-  return (
-    <ShadcnSidebarHeader
-      className={cn(
-        "p-0",
-        "h-16",
-        "border-b",
-        "border-border",
-        "flex-row",
-        "items-center",
-        "justify-between",
-        "overflow-hidden"
-      )}
-    >
-      <div
-        className={cn(
-          "whitespace-nowrap",
-          "flex",
-          "flex-row",
-          "h-full",
-          "items-center",
-          "justify-start",
-          "gap-2",
-          "transition-discrete",
-          "duration-200",
-          {
-            "pl-3": !open,
-            "pl-5": open,
-          }
-        )}
-      >
-        <div>{title.icon}</div>
-        <h2
-          className={cn(
-            "text-sm",
-            "font-bold",
-            "transition-opacity",
-            "duration-200",
-            {
-              "opacity-0": !open,
-              "opacity-100": open,
-            }
-          )}
+    return (
+        <ShadcnSidebarHeader
+            className={cn(
+                "h-16 border-b border-border p-0",
+                "flex-row items-center justify-between overflow-hidden"
+            )}
         >
-          {title.text}
-        </h2>
-      </div>
+            <div
+                className={cn(
+                    "flex h-full min-w-0 items-center gap-3 overflow-hidden",
+                    "transition-all duration-200",
+                    open ? "px-4" : "justify-center px-2"
+                )}
+            >
+                <img
+                    src="/truehome.png"
+                    alt="TRUEHOME"
+                    className={cn(
+                        "shrink-0 object-contain",
+                        open ? "h-20 w-20" : "h-24 w-24"
+                    )}
+                />
 
-      <ShadcnSidebarTrigger
-        className={cn("text-muted-foreground", "mr-1.5", {
-          "opacity-0": !open,
-          "opacity-100": open || isMobile,
-          "pointer-events-auto": open || isMobile,
-          "pointer-events-none": !open && !isMobile,
-        })}
-      />
-    </ShadcnSidebarHeader>
-  );
+                <div
+                    className={cn(
+                        "min-w-0 transition-opacity duration-150",
+                        open ? "opacity-100" : "hidden opacity-0"
+                    )}
+                >
+                    <div className="whitespace-nowrap text-sm font-bold tracking-[0.08em] text-foreground">
+                        TRUEHOME
+                    </div>
+                </div>
+            </div>
+
+            <ShadcnSidebarTrigger
+                className={cn(
+                    "mr-1.5 shrink-0 text-muted-foreground",
+                    {
+                        "opacity-0 pointer-events-none": !open && !isMobile,
+                    }
+                )}
+            />
+        </ShadcnSidebarHeader>
+    );
 }
+
 
 function getDisplayName(item: TreeMenuItem) {
   return item.meta?.label ?? item.label ?? item.name;

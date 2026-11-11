@@ -193,6 +193,9 @@ const PropertyDetails = () => {
                 pageSize: 10,
                 mode: "server",
             },
+            queryOptions: {
+                enabled: Boolean(property?.id)
+            },
             filters: {
                 permanent: property?.id
                     ? [
@@ -222,6 +225,9 @@ const PropertyDetails = () => {
             pagination: {
                 pageSize: 10,
                 mode: "server",
+            },
+            queryOptions: {
+                enabled: Boolean(property?.id)
             },
             filters: {
                 permanent: property?.id

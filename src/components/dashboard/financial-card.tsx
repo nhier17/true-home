@@ -20,7 +20,7 @@ export const FinancialCard = ({
     return (
         <div
             className={cn(
-                "group relative overflow-hidden rounded-xl border border-border bg-card p-5",
+                "group relative overflow-hidden rounded-xl border border-border p-5",
                 "transition-all duration-200",
                 "hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-sm",
             )}

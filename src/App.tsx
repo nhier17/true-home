@@ -12,7 +12,7 @@ import { Toaster } from "./components/refine-ui/notification/toaster";
 import { useNotificationProvider } from "./components/refine-ui/notification/use-notification-provider";
 import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
 import { dataProvider } from "./providers/data";
-import {Building2, CreditCard, DollarSign, Home, MailCheck, User, Users} from "lucide-react";
+import {Building2, CreditCard, DollarSign, Home, MailCheck, Settings, User, Users} from "lucide-react";
 import Dashboard from "@/pages/dashboard.tsx";
 import TenantsList from "@/pages/tenants/list.tsx";
 import TenantsCreate from "@/pages/tenants/create.tsx";
@@ -44,6 +44,8 @@ import PropertyEdit from "@/pages/properties/edit.tsx";
 import TenantEdit from "@/pages/tenants/edit.tsx";
 import LeaseEdit from "@/pages/leases/edit.tsx";
 import InvoiceEdit from "@/pages/invoices/edit.tsx";
+import SettingsList from "@/pages/settings/list.tsx";
+import SettingsCreate from "@/pages/settings/create.tsx";
 
 function App() {
     useEffect(() => {
@@ -143,6 +145,15 @@ function App() {
                           icon: <User />
                       }
                   },
+                  {
+                      name: "settings",
+                      list: "/settings",
+                      create: "/settings/create",
+                      meta: {
+                          label: "Settings",
+                          icons: <Settings />
+                      }
+                  }
               ]}
             >
                 <Routes>
@@ -226,6 +237,11 @@ function App() {
                             <Route index element={<UsersList />} />
                             <Route path="create" element={<UsersInvite />} />
                             <Route path="show/:id" element={<UserDetails />} />
+                        </Route>
+
+                        <Route path="settings">
+                            <Route index element={<SettingsList />} />
+                            <Route path="create" element={<SettingsCreate />} />
                         </Route>
                     </Route>
                 </Routes>

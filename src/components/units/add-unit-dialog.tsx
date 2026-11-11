@@ -236,7 +236,7 @@ const AddUnitDialog = ({ propertyId }: AddUnitDialogProps) => {
                                         disabled={isLoadingBlocks}
                                     >
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger className="w-full">
                                                 <SelectValue placeholder="Select block" />
                                             </SelectTrigger>
                                         </FormControl>
@@ -273,7 +273,7 @@ const AddUnitDialog = ({ propertyId }: AddUnitDialogProps) => {
                                         disabled={isLoadingFloors}
                                     >
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger className="w-full">
                                                 <SelectValue placeholder="Select floor" />
                                             </SelectTrigger>
                                         </FormControl>

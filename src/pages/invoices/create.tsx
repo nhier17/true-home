@@ -114,10 +114,6 @@ const InvoiceCreate = () => {
         <CreateView className="tenant-view">
             <CreateViewHeader title="Create Invoice" />
 
-            <div className="intro-row">
-                <p>Provide the required information to create an invoice</p>
-            </div>
-
             <Separator />
 
             <div className="my-4 flex items-center">

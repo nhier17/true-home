@@ -18,32 +18,44 @@ const options: CreateDataProviderOptions = {
         params.limit = pageSize;
       }
 
+
       filters?.forEach((filter) => {
-        const field = "field" in filter ? filter.field : "";
+        if (!("field" in filter)) return;
+
+        const { field } = filter;
+        if (filter.value === undefined || filter.value === null) return;
+
         const value = String(filter.value);
+
+        // Property and relationship filters
+        if (
+            ["properties", "units", "floors", "blocks"].includes(resource) &&
+            ["propertyId", "blockId", "floorId", "unitTypeId", "status"].includes(field)
+        ) {
+          params[field] = value;
+        }
 
         if (field === "role") {
           params.role = value;
         }
 
-        if (resource === "properties") {
-          if (field === "name") params.search = value;
+        if (resource === "properties" && field === "name") {
+          params.search = value;
         }
 
         if (resource === "users") {
-          if (field === "search" || field === "name" || field === "email") {
+          if (["search", "name", "email"].includes(field)) {
             params.search = value;
           }
         }
 
-        if (resource === "leases") {
-          if (field === "name") params.search = value;
-        }
-
-        if (resource === "tenants") {
-          if (field === "name") params.search = value;
+        if (["leases", "tenants", "units", "floors", "blocks", "invoices"].includes(resource)) {
+          if (field === "name") {
+            params.search = value;
+          }
         }
       });
+
 
       return params;
     },

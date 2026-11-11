@@ -41,8 +41,7 @@ type PaymentInvoice = Invoice & {
 
 
 const PaymentCreate = () => {
-    const [selectedInvoice, setSelectedInvoice] =
-        useState<PaymentInvoice | null>(null);
+    const [selectedInvoice, setSelectedInvoice] =  useState<PaymentInvoice | null>(null);
 
     const form = useForm<
         BaseRecord,

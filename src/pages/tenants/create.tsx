@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "@refinedev/react-hook-form";
-import {useBack, type BaseRecord, type HttpError} from "@refinedev/core";
+import {type BaseRecord, type HttpError} from "@refinedev/core";
 import * as z from "zod";
 import {
     Loader2,
@@ -36,7 +36,6 @@ import {tenantSchema} from "@/lib/schema.ts";
 type TenantFormValues = z.infer<typeof tenantSchema>;
 
 const TenantsCreate = () => {
-    const back = useBack();
 
     const form = useForm<BaseRecord, HttpError, TenantFormValues>({
         resolver: zodResolver(tenantSchema),
@@ -80,11 +79,6 @@ const TenantsCreate = () => {
     return (
         <CreateView className="tenant-view">
             <CreateViewHeader title="Register new Tenant" />
-
-            <div className="intro-row">
-                <p>Provide the required information below to register a tenant.</p>
-                <Button onClick={() => back()} variant="outline">Go Back</Button>
-            </div>
 
             <Separator />
 

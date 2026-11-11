@@ -9,7 +9,6 @@ import {useTable} from "@refinedev/react-table";
 import {useMemo,useState} from "react";
 import { ShowButton } from "@/components/refine-ui/buttons/show";
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@/components/ui/badge";
 import {Tenant} from "@/types";
 
 

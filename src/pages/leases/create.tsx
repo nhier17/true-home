@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "@refinedev/react-hook-form";
-import {useBack, useList, type BaseRecord, type HttpError} from "@refinedev/core";
+import {useList, type BaseRecord, type HttpError} from "@refinedev/core";
 import * as z from "zod";
 import {CalendarIcon, Loader2} from "lucide-react";
 
@@ -35,7 +35,7 @@ import {format, parseISO} from "date-fns";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {Tenant, Unit} from "@/types";
-import {cn, getToday} from "@/lib/utils.ts";
+import {cn} from "@/lib/utils.ts";
 import {leaseSchema} from "@/lib/schema.ts";
 
 
@@ -43,7 +43,6 @@ import {leaseSchema} from "@/lib/schema.ts";
 type LeaseFormValues = z.infer<typeof leaseSchema>;
 
 const LeaseCreate = () => {
-    const back = useBack();
 
     const form = useForm<BaseRecord, HttpError,LeaseFormValues>({
         resolver: zodResolver(leaseSchema),
@@ -99,11 +98,6 @@ const LeaseCreate = () => {
     return (
         <CreateView className="tenant-view">
             <CreateViewHeader title="Create a lease" />
-
-            <div className="intro-row">
-                <p>Provide the required information below to create a lease.</p>
-                <Button onClick={() => back()} variant="outline">Go Back</Button>
-            </div>
 
             <Separator />
 

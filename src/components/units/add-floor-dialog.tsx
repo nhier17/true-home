@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/select";
 import { BACKEND_BASE_URL } from "@/constants";
 import { floorSchema } from "@/lib/schema";
-import { Block } from "@/types";
+import {Block, Property} from "@/types";
 
 type FloorFormValues = z.infer<typeof floorSchema>;
 type CreateFloorPayload = FloorFormValues & {
@@ -53,6 +53,11 @@ const AddFloorDialog = ({ propertyId  }: AddFloorDialogProps) => {
 
     const { mutate, mutation: {isPending: isSubmitting} } = useCustomMutation<BaseRecord, HttpError, CreateFloorPayload>();
 
+    const { query: propertyQuery } = useList<Property>({
+        resource: "properties",
+        pagination: { mode: "off"}
+    });
+
     const { query: blocksQuery } = useList<Block>({
         resource: "blocks",
         pagination: {
@@ -68,12 +73,15 @@ const AddFloorDialog = ({ propertyId  }: AddFloorDialogProps) => {
     });
 
     const blocks = blocksQuery.data?.data ?? [];
+    const properties = propertyQuery.data?.data ?? [];
+    const isLoadingProperties = propertyQuery.isLoading
     const isLoadingBlocks = blocksQuery.isLoading;
 
 
     const form = useForm<FloorFormValues>({
         resolver: zodResolver(floorSchema),
         defaultValues: {
+            propertyId: "",
             blockId: undefined,
             name: "",
             level: 1,
@@ -149,6 +157,40 @@ const AddFloorDialog = ({ propertyId  }: AddFloorDialogProps) => {
                         onSubmit={handleSubmit(onSubmit)}
                         className="space-y-5"
                     >
+                        <FormField
+                            control={control}
+                            name="propertyId"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Property
+                                    </FormLabel>
+
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        value={field.value ? String(field.value) : ""}
+                                        disabled={isLoadingProperties}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Select Property" />
+                                            </SelectTrigger>
+                                        </FormControl>
+
+                                        <SelectContent>
+                                            {properties.map((property) => (
+                                                <SelectItem  key={property.id}  value={property.id}>
+                                                    {property.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
                         <FormField
                             control={control}
                             name="name"

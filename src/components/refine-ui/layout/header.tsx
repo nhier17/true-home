@@ -75,9 +75,10 @@ function MobileHeader() {
           "pointer-events-none": open && !isMobile,
         })}
       />
-
+       <div className="flex justify-end gap-2">
       <ThemeToggle className={cn("h-8", "w-8")} />
         <UserDropdown />
+       </div>
     </header>
   );
 }

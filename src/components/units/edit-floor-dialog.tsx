@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import {type BaseRecord, type HttpError, useCustomMutation, useInvalidate, useList} from "@refinedev/core";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {floorSchema} from "@/lib/schema.ts";
 import {BACKEND_BASE_URL} from "@/constants";
 import * as z from "zod";
 import {
@@ -20,7 +19,17 @@ import {Input} from "@/components/ui/input.tsx";
 import {Block, Floor} from "@/types";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 
-type FormValues = z.infer<typeof floorSchema>;
+const editFloorSchema = z.object({
+    name: z
+        .string()
+        .trim()
+        .min(1, "Floor name is required")
+        .max(255, "Floor name is too long"),
+    blockId: z.string().optional(),
+    level: z.coerce.number().int("Level must be an integer"),
+});
+
+type FormValues = z.infer<typeof editFloorSchema>;
 
 type EditFloorDialogProps = {
     floor: Floor;
@@ -34,7 +43,7 @@ const EditFloorDialog = ({ floor }: EditFloorDialogProps) => {
     const {mutate, mutation: { isPending: isSubmitting }} = useCustomMutation<BaseRecord, HttpError, FormValues>();
 
     const form = useForm<FormValues>({
-        resolver: zodResolver(floorSchema),
+        resolver: zodResolver(editFloorSchema),
         defaultValues: {
             name: floor.name,
             level: floor.level,

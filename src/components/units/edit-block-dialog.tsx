@@ -14,12 +14,15 @@ import {Input} from "@/components/ui/input.tsx";
 import {type BaseRecord, type HttpError, useCustomMutation, useInvalidate} from "@refinedev/core";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {blockSchema} from "@/lib/schema.ts";
 import * as z from "zod";
 import type {Block} from "@/types";
 import {BACKEND_BASE_URL} from "@/constants";
 
-type FormValues = z.infer<typeof blockSchema>;
+const editBlockSchema = z.object({
+    name: z.string().trim().min(1, "Block name is required").max(255, "Block name is too long"),
+});
+
+type FormValues = z.infer<typeof editBlockSchema>;
 
 type EditBlockDialogProps = {
     block: Block;
@@ -35,7 +38,7 @@ const EditBlockDialog = ({ block }: EditBlockDialogProps) => {
     } = useCustomMutation<BaseRecord, HttpError, FormValues>();
 
     const form = useForm<FormValues>({
-        resolver: zodResolver(blockSchema),
+        resolver: zodResolver(editBlockSchema),
         defaultValues: {
             name: block.name,
         },

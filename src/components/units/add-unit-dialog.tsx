@@ -77,6 +77,7 @@ const AddUnitDialog = ({ propertyId }: AddUnitDialogProps) => {
             mode: "off",
         },
     });
+
     const { query: blockQuery } = useList<Block>({
         resource: "blocks",
         pagination: {

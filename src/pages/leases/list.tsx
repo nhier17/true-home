@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import {Download, Search} from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTable } from "@refinedev/react-table";
 import { ColumnDef } from "@tanstack/react-table";
@@ -11,6 +11,8 @@ import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
 import { DataTable } from "@/components/refine-ui/data-table/data-table";
 import { ShowButton } from "@/components/refine-ui/buttons/show";
 import {LeaseStatus, Lease} from "@/types";
+import {exportToExcel} from "@/lib/utils.ts";
+import {Button} from "@/components/ui/button.tsx";
 
 const statusVariant = (
     status: LeaseStatus,
@@ -209,6 +211,49 @@ const LeasesList = () => {
         }
     });
 
+    const leaseExportColumns = [
+        {
+            header: "Lease Number",
+            accessor: (lease: Lease) => lease.leaseNumber,
+        },
+        {
+            header: "Tenant",
+            accessor: (lease: Lease) =>
+                `${lease.tenant.firstName} ${lease.tenant.lastName}`,
+        },
+        {
+            header: "Unit",
+            accessor: (lease: Lease) => lease.unit.unitNumber,
+        },
+        {
+            header: "Start Date",
+            accessor: (lease: Lease) => lease.startDate,
+        },
+        {
+            header: "End Date",
+            accessor: (lease: Lease) => lease.endDate,
+        },
+        {
+            header: "Monthly Rent (KES)",
+            accessor: (lease: Lease) => Number(lease.monthlyRent),
+        },
+        {
+            header: "Status",
+            accessor: (lease: Lease) => lease.status,
+        },
+    ];
+
+    const leases = leaseTable.refineCore.tableQuery.data?.data ?? [];
+
+    const handleExport = () => {
+        exportToExcel({
+            data: leases,
+            columns: leaseExportColumns,
+            fileName: "leases",
+            sheetName: "Leases",
+        });
+    };
+
     return (
         <ListView>
             <Breadcrumb />
@@ -228,6 +273,14 @@ const LeasesList = () => {
                                 onChange={(event) => setSearchQuery(event.target.value)}
                             />
                         </div>
+                        <Button
+                            variant="outline"
+                            onClick={handleExport}
+                            disabled={!leases.length}
+                        >
+                            <Download className="mr-2 h-4 w-4" />
+                            Export Excel
+                        </Button>
                         <CreateButton name="Create Lease" resource="leases">Create Lease</CreateButton>
                     </div>
             </div>

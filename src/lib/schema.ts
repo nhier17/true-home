@@ -19,7 +19,6 @@ export const unitSchema = z.object({
 
 //floor
 export const floorSchema = z.object({
-    propertyId: z.string().min(1,"Please select property"),
     blockId: z.string().optional(),
     name: z
         .string()
@@ -31,7 +30,6 @@ export const floorSchema = z.object({
 
 //blocks
 export const blockSchema = z.object({
-    propertyId: z.string().min(1,"Please select property"),
     name: z.string().trim().min(1, "Block name is required").max(255, "Block name is too long"),
 });
 

@@ -2,6 +2,47 @@ import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import {BACKEND_BASE_URL} from "@/constants";
 import {InvoiceStatus, User} from "@/types";
+import * as XLSX from "xlsx";
+
+type ExportColumn<T> = {
+    header: string;
+    accessor: (row: T) => unknown;
+};
+
+type ExportToExcelOptions<T> = {
+    data: T[];
+    columns: ExportColumn<T>[];
+    fileName: string;
+    sheetName?: string;
+};
+
+export function exportToExcel<T>({
+                                     data,
+                                     columns,
+                                     fileName,
+                                     sheetName = "Sheet1",
+                                 }: ExportToExcelOptions<T>) {
+    if (!data.length) return;
+
+    const rows = data.map((row) =>
+        Object.fromEntries(
+            columns.map(({ header, accessor }) => [
+                header,
+                accessor(row) ?? "",
+            ]),
+        ),
+    );
+
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+
+    XLSX.writeFile(
+        workbook,
+        fileName.endsWith(".xlsx") ? fileName : `${fileName}.xlsx`,
+    );
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -106,3 +147,4 @@ export const statusStyles: Record< InvoiceStatus, string > = {
     OVERDUE: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
     VOID: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
 };
+

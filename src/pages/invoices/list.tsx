@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { AlertCircle, CheckCircle2, CircleDollarSign, Search } from "lucide-react";
+import {AlertCircle, CheckCircle2, CircleDollarSign, Download, Search} from "lucide-react";
 import { useTable } from "@refinedev/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 
@@ -10,18 +10,21 @@ import {ShowButton} from "@/components/refine-ui/buttons/show.tsx";
 import {CreateButton} from "@/components/refine-ui/buttons/create.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import {FinancialCard} from "@/components/dashboard/financial-card.tsx";
 import {useDashboard} from "@/components/dashboard/hooks/use-custom.ts";
 import type {Invoice, InvoiceStatus} from "@/types";
+import {Button} from "@/components/ui/button.tsx";
+import {useCustomMutation, useInvalidate, useNotification} from "@refinedev/core";
+import {exportToExcel, formatCurrency} from "@/lib/utils.ts";
+import {BACKEND_BASE_URL} from "@/constants";
 
-
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat("en-KE", {
-    style: "currency",
-    currency: "KES",
-    maximumFractionDigits: 0,
-  }).format(amount);
-};
 
 const formatDate = (date: string) => {
   return new Intl.DateTimeFormat("en-KE", {
@@ -41,7 +44,12 @@ const getStatusLabel = (status: InvoiceStatus) => {
 
 const InvoiceList = () => {
   const [searchQuery, setSearchQuery] = useState("");
+    const [selectedStatus, setSelectedStatus] = useState<Invoice["status"] | "ALL">("ALL");
   const { financial, overdueInvoices } = useDashboard();
+
+    const { mutate, mutation: { isPending: isIssuing } } = useCustomMutation();
+    const invalidate = useInvalidate();
+    const { open } = useNotification();
 
   const totalOverdue = useMemo(
     () => overdueInvoices.reduce((acc, invoice) => acc + Number(invoice.amount), 0),
@@ -74,6 +82,43 @@ const InvoiceList = () => {
       description: "Past due date amount",
     },
   ] as const;
+
+    const handleIssueInvoice = (invoice: Invoice) => {
+        mutate(
+            {
+                url: `${BACKEND_BASE_URL}invoices/${invoice.id}/issue`,
+                method: "post",
+                config: {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+                values: {},
+            },
+            {
+                onSuccess: () => {
+                    open?.({
+                        type: "success",
+                        message: "Invoice issued successfully",
+                        description: `${invoice.invoiceNumber} has been issued.`,
+                    });
+
+                    invalidate({
+                        resource: "invoices",
+                        invalidates: ["detail", "list"],
+                        id: invoice.id,
+                    });
+                },
+                onError: (error) => {
+                    open?.({
+                        type: "error",
+                        message: "Failed to issue invoice",
+                        description: error?.message ?? "Something went wrong.",
+                    });
+                },
+            },
+        );
+    };
 
   const invoiceColumns = useMemo<ColumnDef<Invoice>[]>(
     () => [
@@ -155,30 +200,91 @@ const InvoiceList = () => {
         },
       },
         {
-            id: "details",
-            header: () => <p className="column-title">Details</p>,
-            cell: ({ row }) => (
+            id: "actions",
+            header: () => <p className="column-title">Action</p>,
+            cell: ({ row }) => {
+                const invoice = row.original;
+
+                if (invoice.status === "DRAFT") {
+                    return (
+                        <Button
+                            size="sm"
+                            onClick={() => handleIssueInvoice(invoice)}
+                            disabled={isIssuing}
+                        >
+                            Issue invoice
+                        </Button>
+                    );
+                }
+
+                return (
                     <ShowButton
                         resource="invoices"
-                        recordItemId={row.original.id}
+                        recordItemId={invoice.id}
                         variant="outline"
                         size="sm"
-                    />
-            ),
-        },
+                    >
+                        View details
+                    </ShowButton>
+                );
+            },
+        }
     ],
     [],
   );
 
-    const searchFilters = searchQuery
-        ? [
-            {
-                field: "name",
-                operator: "contains" as const,
-                value: searchQuery,
-            },
-        ]
-        : [];
+    const invoiceExportColumns = [
+        {
+            header: "Invoice",
+            accessor: (invoice: Invoice) => invoice.invoiceNumber,
+        },
+        {
+            header: "Tenant",
+            accessor: (invoice: Invoice) =>
+                `${invoice.tenant.firstName} ${invoice.tenant.lastName}`,
+        },
+        {
+            header: "Unit",
+            accessor: (invoice: Invoice) => invoice.unit.unitNumber,
+        },
+        {
+            header: "Type",
+            accessor: (invoice: Invoice) => invoice.invoiceType.name,
+        },
+        {
+            header: "Amount",
+            accessor: (invoice: Invoice) => Number(invoice.amount),
+        },
+        {
+            header: "Due Date",
+            accessor: (invoice: Invoice) => formatDate(invoice.dueDate),
+        },
+        {
+            header: "Status",
+            accessor: (invoice: Invoice) => getStatusLabel(invoice.status),
+        },
+    ];
+
+    const searchFilters = [
+        ...(searchQuery
+            ? [
+                {
+                    field: "invoiceNumber",
+                    operator: "contains" as const,
+                    value: searchQuery,
+                },
+            ]
+            : []),
+        ...(selectedStatus !== "ALL"
+            ? [
+                {
+                    field: "status",
+                    operator: "eq" as const,
+                    value: selectedStatus,
+                },
+            ]
+            : []),
+    ];
 
   const invoiceTable = useTable<Invoice>({
     columns: invoiceColumns,
@@ -202,6 +308,17 @@ const InvoiceList = () => {
     },
   });
 
+    const invoices = invoiceTable.refineCore.tableQuery.data?.data ?? [];
+
+    const handleExport = () => {
+        exportToExcel({
+            data: invoices,
+            columns: invoiceExportColumns,
+            fileName: "invoices",
+            sheetName: "Invoices",
+        });
+    };
+
   return (
       <ListView>
           <Breadcrumb />
@@ -215,16 +332,46 @@ const InvoiceList = () => {
                       <Search className="search-icon" />
                       <Input
                           type="text"
-                          placeholder="Search by name or code..."
+                          placeholder="Search by name..."
                           className="pl-10 w-full"
                           value={searchQuery}
                           onChange={(event) => setSearchQuery(event.target.value)}
                       />
                   </div>
-                  <CreateButton resource="invoices" name="Create Invoice">Create Invoice</CreateButton>
+
+                  <div className="flex gap-2 w-full sm:w-auto">
+                      <Select
+                          value={selectedStatus}
+                          onValueChange={(value) =>
+                              setSelectedStatus(value as Invoice["status"] | "ALL")
+                          }
+                      >
+                          <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="Filter by status" />
+                          </SelectTrigger>
+
+                          <SelectContent>
+                              <SelectItem value="ALL">All invoices</SelectItem>
+                              <SelectItem value="DRAFT">Draft</SelectItem>
+                              <SelectItem value="ISSUED">Issued</SelectItem>
+                              <SelectItem value="PARTIALLY_PAID">Partially paid</SelectItem>
+                              <SelectItem value="OVERDUE">Overdue</SelectItem>
+                              <SelectItem value="PAID">Paid</SelectItem>
+                              <SelectItem value="VOID">Void</SelectItem>
+                          </SelectContent>
+                      </Select>
+                      <Button
+                          variant="secondary"
+                          onClick={handleExport}
+                          disabled={!invoices.length}
+                      >
+                          <Download className="mr-2 h-4 w-4" />
+                          Export Excel
+                      </Button>
+                      <CreateButton name="Create Invoice" resource="invoices">Create Invoice</CreateButton>
+                  </div>
               </div>
           </div>
-
           <Card className="hover:shadow-md transition-shadow">
               <CardHeader>
                   <CardTitle>Invoice Overview</CardTitle>

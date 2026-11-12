@@ -1,19 +1,20 @@
 import React, { useMemo, useState } from "react";
 import { ListView } from "@/components/refine-ui/views/list-view.tsx";
 import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
-import {CircleDollarSign, Receipt, Search, Wallet} from "lucide-react";
+import {CircleDollarSign, Download, Receipt, Search, Wallet} from "lucide-react";
 import { DataTable } from "@/components/refine-ui/data-table/data-table.tsx";
 import { useTable } from "@refinedev/react-table";
 import { Input } from "@/components/ui/input.tsx";
 import { CreateButton } from "@/components/refine-ui/buttons/create.tsx";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge.tsx";
-import {formatCurrency, formatDateTime} from "@/lib/utils";
+import {exportToExcel, formatCurrency, formatDateTime} from "@/lib/utils";
 import {Payment} from "@/types";
 import {ShowButton} from "@/components/refine-ui/buttons/show.tsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {FinancialCard} from "@/components/dashboard/financial-card.tsx";
 import {useDashboard} from "@/components/dashboard/hooks/use-custom.ts";
+import {Button} from "@/components/ui/button.tsx";
 
 
 const paymentMethodLabels: Record<
@@ -148,6 +149,52 @@ const PaymentList = () => {
         },
     });
 
+    const payments = paymentTable.refineCore.tableQuery.data?.data ?? [];
+
+    const paymentExportColumns = [
+        {
+            header: "Receipt Number",
+            accessor: (payment: Payment) => payment.receiptNumber,
+        },
+        {
+            header: "Tenant",
+            accessor: (payment: Payment) =>
+                `${payment.tenant.firstName} ${payment.tenant.lastName}`,
+        },
+        {
+            header: "Invoice",
+            accessor: (payment: Payment) => payment.invoice.invoiceNumber,
+        },
+        {
+            header: "Amount (KES)",
+            accessor: (payment: Payment) => Number(payment.amount),
+        },
+        {
+            header: "Payment Method",
+            accessor: (payment: Payment) =>
+                paymentMethodLabels[payment.paymentMethod],
+        },
+        {
+            header: "Payment Date",
+            accessor: (payment: Payment) =>
+                formatDateTime(payment.paidAt),
+        },
+        {
+            header: "Payment Reference",
+            accessor: (payment: Payment) =>
+                payment.paymentReference || "—",
+        },
+    ];
+
+    const handleExport = () => {
+        exportToExcel({
+            data: payments,
+            columns: paymentExportColumns,
+            fileName: "payments",
+            sheetName: "Payments",
+        });
+    };
+
     const financialCards = [
         {
             title: "Total Invoiced",
@@ -197,13 +244,15 @@ const PaymentList = () => {
                             }
                         />
                     </div>
-
-                    <CreateButton
-                        resource="payments"
-                        name="Record Payment"
+                    <Button
+                        variant="secondary"
+                        onClick={handleExport}
+                        disabled={!payments.length}
                     >
-                        Record Payment
-                    </CreateButton>
+                        <Download className="mr-2 h-4 w-4" />
+                        Export Excel
+                    </Button>
+                    <CreateButton resource="payments" name="Record Payment">Record Payment</CreateButton>
                 </div>
             </div>
 

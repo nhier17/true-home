@@ -35,6 +35,10 @@ const options: CreateDataProviderOptions = {
           params[field] = value;
         }
 
+        if (resource === "invoices" && field === "status") {
+          params.status = value;
+        }
+
         if (field === "role") {
           params.role = value;
         }
@@ -47,6 +51,10 @@ const options: CreateDataProviderOptions = {
           if (["search", "name", "email"].includes(field)) {
             params.search = value;
           }
+        }
+
+        if (resource === "invoices" && ["name", "invoiceNumber"].includes(field)) {
+          params.search = value;
         }
 
         if (["leases", "tenants", "units", "floors", "blocks", "invoices"].includes(resource)) {

@@ -10,10 +10,12 @@ import {useMemo,useState} from "react";
 import { ShowButton } from "@/components/refine-ui/buttons/show";
 import { ColumnDef } from "@tanstack/react-table";
 import {Tenant} from "@/types";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 
 
 const TenantsList = () => {
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedGender, setSelectedGender] = useState<string>("all");
 
     const tenantColumns = useMemo<ColumnDef<Tenant>[]>(
         () => [
@@ -81,6 +83,15 @@ const TenantsList = () => {
         []
     );
 
+    const genderFilters =
+        selectedGender === "all"
+            ? []
+            : [
+                { field: "gender",
+                    operator: "eq" as const,
+                    value: selectedGender
+                }];
+
     const searchFilters = searchQuery
         ? [
             {
@@ -100,7 +111,7 @@ const TenantsList = () => {
                 mode: "server",
             },
             filters: {
-                permanent: [...searchFilters],
+                permanent: [...searchFilters, ...genderFilters],
             },
             sorters: {
                 initial: [
@@ -132,7 +143,19 @@ const TenantsList = () => {
                             onChange={(event) => setSearchQuery(event.target.value)}
                         />
                     </div>
+                    <div className="flex gap-2 w-full sm:w-auto overflow-hidden">
+                        <Select value={selectedGender} onValueChange={setSelectedGender}>
+                            <SelectTrigger className="w-[130px]">
+                                <SelectValue placeholder="Gender" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All Genders</SelectItem>
+                                <SelectItem value="male">Male</SelectItem>
+                                <SelectItem value="female">Female</SelectItem>
+                            </SelectContent>
+                        </Select>
                     <CreateButton resource="tenants" name="Add Tenant">Add Tenant</CreateButton>
+                    </div>
                 </div>
             </div>
 

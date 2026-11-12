@@ -27,14 +27,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { BACKEND_BASE_URL } from "@/constants";
+import {blockSchema} from "@/lib/schema.ts";
 
-const blockSchema = z.object({
-    name: z
-        .string()
-        .trim()
-        .min(1, "Block name is required")
-        .max(255, "Block name is too long"),
-});
 
 type BlockFormValues = z.infer<typeof blockSchema>;
 type CreateBlockPayload = BlockFormValues & {

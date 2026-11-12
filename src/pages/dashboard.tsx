@@ -19,8 +19,28 @@ import {RecentPayments} from "@/components/dashboard/recent-payments.tsx";
 import {OverdueInvoices} from "@/components/dashboard/overdue-invoices.tsx";
 import {ExpiringLeases} from "@/components/dashboard/expiring-leases.tsx";
 import {QuickActions} from "@/components/dashboard/quick-actions.tsx";
+import {useGetIdentity} from "@refinedev/core";
 
 const Dashboard = () => {
+    const { data: identity } = useGetIdentity<{
+        name?: string;
+        firstName?: string;
+    }>();
+
+    const firstName =
+        identity?.firstName ||
+        identity?.name?.trim().split(" ")[0] ||
+        "there";
+
+    const hour = new Date().getHours();
+
+    const greeting =
+        hour < 12
+            ? "Good morning"
+            : hour < 17
+                ? "Good afternoon"
+                : "Good evening";
+
     const { overview, isLoading, isError, financial, revenueTrend, recentPayments, overdueInvoices, expiringLeases } = useDashboard();
 
     const kpis = [
@@ -104,11 +124,18 @@ const Dashboard = () => {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="page-title">Dashboard</h1>
+                <h1 className="page-title">Overview</h1>
 
-                <p className="text-muted-foreground">
-                    Monitor your properties performance and stay on top of operations.
-                </p>
+                <div className="rounded-lg border bg-card px-4 py-3">
+                    <h2 className="text-lg font-semibold">
+                        {greeting},{" "}
+                        <span className="text-primary">{firstName}!</span>
+                    </h2>
+
+                    <p className="text-muted-foreground">
+                        It's a great day to stay ahead of your property management goals.
+                    </p>
+                </div>
             </div>
             <QuickActions />
             

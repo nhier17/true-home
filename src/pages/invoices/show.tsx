@@ -12,11 +12,9 @@ import {BACKEND_BASE_URL} from "@/constants";
 
 const InvoiceDetails = () => {
     const { id } = useParams();
-    const { mutate, mutation } = useCustomMutation();
+    const { mutate, mutation: { isPending: isIssuing } } = useCustomMutation();
     const invalidate = useInvalidate();
     const { open } = useNotification();
-
-    const isIssuing = mutation.isPending;
 
     const invoiceId = id ?? "";
 
